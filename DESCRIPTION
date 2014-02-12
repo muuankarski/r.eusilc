@@ -1,0 +1,9 @@
+Package: r.eusilc
+Type: Package
+Title: Merge eu-silc cross-sectional and longitudinal raw .csv datasets
+Version: 0.1
+Date: 2014-02-12
+Author: Markus Kainu
+Maintainer: Markus Kainu <markuskainu@gmail.com>
+Description: Merge eu-silc cross-sectional and longitudinal raw .csv datasets into single data.frame that can be used in analysis
+License: FreeBSD
