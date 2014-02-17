@@ -3,6 +3,16 @@ r.eusilc - R-package for merging eu-silc cross-sectional and longitudinal raw .c
 
 This package provides functions for merging raw .csv-files into single household/personal level datafile. Also, package provides functions for pooling the data from different waves into single data file. Procedures will be first implemented for longitudinal files.
 
+Installation
+---------------------------------
+
+```r
+library(devtools)
+install_github("r.eusilc","muuankarski")
+
+
+```
+
 Preparations
 ----------------------------------
 
