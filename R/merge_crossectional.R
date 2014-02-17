@@ -14,6 +14,10 @@
 #'
 #' @param origin.path A string. Specify the path where to load the original csv files.
 #' @param destination.path A string. Specify the path where to save the merged file. value=/code{"not_save"} does not save the merged file
+#' @param format A string. Specify the output format for merged data. values=/code{"csv","RData","spss","sas","stata"} 
+#' @param subset.vars A string. Specify subset of variables from both datas. /code{"all"} includes all the variables.
+#' @param subset.countries A string. Specify subset of countries. In /code{c("FI","SE")} format.  /code{"all"} includes all the countries.
+#'
 #'
 #' @return data.frame
 #'
@@ -22,34 +26,49 @@
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
-merge_cross_personal <- function(origin.path,destination.path,format) {
+merge_cross_personal <- function(origin.path,
+                                 destination.path,
+                                 format,data.table=FALSE,
+                                 subset.vars="all",
+                                 subset.countries="all") {
   
   if(!exists("origin.path")) stop("origin.path not defined")
   if(!exists("destination.path")) stop("destination.path not defined")
   if(!exists("format")) stop("format not defined")
   if(!(format %in% c("csv","RData","spss","sas","stata"))) stop("Wrong format. Use csv,RData,spss,sas,stata")
   
-  # suppressPackageStartupMessages(library(data.table))
-  # suppressPackageStartupMessages(library(bit64))
+  if (data.table == TRUE) {
+    suppressPackageStartupMessages(library(data.table))
+    suppressPackageStartupMessages(library(bit64))  
+  } 
   
   
   # personal register
   path_personal_register <- paste(origin.path,"/r_file.csv",sep="")
-  # per_reg <- fread(path_personal_register, header = T, sep = ',')
-  per_reg <- read.csv(path_personal_register, header = T, sep = ',')
+  if (data.table == TRUE)  per_reg <- fread(path_personal_register, header = T, sep = ',')
+  if (data.table == FALSE) per_reg <- read.csv(path_personal_register, header = T, sep = ',')
   per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
   per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
   # personal data
   path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
-  # per_data <- fread(path_personal_data, header = T, sep = ',')
-  per_data <- read.csv(path_personal_data, header = T, sep = ',')
+  if (data.table == TRUE)  per_data <- fread(path_personal_data, header = T, sep = ',')
+  if (data.table == FALSE) per_data <- read.csv(path_personal_data, header = T, sep = ',')
   per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
-  per_data$PER_ID <- factor(paste(per_data$PB020,per_data$PB030, sep="_"))
-  
+    
   #--------------------------------------------------------------------#
   # merge data
   per_merge_cross <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
   #--------------------------------------------------------------------#
+  # subset the merged data
+  ## variables
+  per_merge_cross <- as.data.frame(per_merge_cross)
+  if (subset.vars == "all") {
+    per_merge_cross <- per_merge_cross
+  } else per_merge_cross <- per_merge_cross[, c(subset.vars)] 
+  ## countries
+  if (subset.countries == "all") {
+    per_merge_cross <- per_merge_cross
+  } else  per_merge_cross <- per_merge_cross[per_merge_cross$RB020 %in% c(subset.countries),]
   # write files
   
   if (destination.path != "not_save") {
@@ -105,6 +124,10 @@ merge_cross_personal <- function(origin.path,destination.path,format) {
 #'
 #' @param origin.path A string. Specify the path where to load the original csv files.
 #' @param destination.path A string. Specify the path where to save the merged file. value=/code{"not_save"} does not save the merged file
+#' @param format A string. Specify the output format for merged data. values=/code{"csv","RData","spss","sas","stata"} 
+#' @param subset.vars A string. Specify subset of variables from both datas. /code{"all"} includes all the variables.
+#' @param subset.countries A string. Specify subset of countries. In /code{c("FI","SE")} format.  /code{"all"} includes all the countries.
+#'
 #'
 #' @return data.frame
 #'
@@ -113,35 +136,49 @@ merge_cross_personal <- function(origin.path,destination.path,format) {
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
-merge_cross_household <- function(origin.path,destination.path,format) {
+merge_cross_household <- function(origin.path,
+                                  destination.path,
+                                  format,data.table=FALSE,
+                                  subset.vars="all",
+                                  subset.countries="all") {
   
   if(!exists("origin.path")) stop("origin.path not defined")
   if(!exists("destination.path")) stop("destination.path not defined")
   if(!exists("format")) stop("format not defined")
   if(!(format %in% c("csv","RData","spss","sas","stata"))) stop("Wrong format. Use csv,RData,spss,sas,stata")
   
-  # suppressPackageStartupMessages(library(data.table))
-  # suppressPackageStartupMessages(library(bit64))
-  
+  if (data.table == TRUE) {
+    suppressPackageStartupMessages(library(data.table))
+    suppressPackageStartupMessages(library(bit64))  
+  }  
   
   # household register
   path_household_register <- paste(origin.path,"/d_file.csv",sep="")
-  # hh_reg <- fread(path_household_register, header = T, sep = ',')
-  hh_reg <- read.csv(path_household_register, header = T, sep = ',')
+  if (data.table == TRUE)  hh_reg <- fread(path_household_register, header = T, sep = ',')
+  if (data.table == FALSE) hh_reg <- read.csv(path_household_register, header = T, sep = ',')
   hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
   hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
-  # personal data
+  #  household data
   path_household_data <- paste(origin.path,"/h_file.csv",sep="")
-  # hh_data <- fread(path_household_data, header = T, sep = ',')
-  hh_data <- read.csv(path_household_data, header = T, sep = ',')
+  if (data.table == TRUE)  hh_data <- fread(path_household_data, header = T, sep = ',')
+  if (data.table == FALSE) hh_data <- read.csv(path_household_data, header = T, sep = ',')
   hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))
-  hh_data$HH_ID <- factor(paste(hh_data$HB020,hh_data$HB030, sep="_"))
-  
   
   #--------------------------------------------------------------------#
   # merge data
   hh_merge_cross <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
+  # subset the merged data
+  ## variables
+  hh_merge_cross <- as.data.frame(hh_merge_cross)
+  if (subset.vars == "all") {
+    hh_merge_cross <- hh_merge_cross
+  } else hh_merge_cross <- hh_merge_cross[, c(subset.vars)] 
+  ## countries
+  if (subset.countries == "all") {
+    hh_merge_cross <- hh_merge_cross
+  } else  hh_merge_cross <- hh_merge_cross[hh_merge_cross$DB020 %in% c(subset.countries),]
   #--------------------------------------------------------------------#
+  
   # write files
   
   if (destination.path != "not_save") {
