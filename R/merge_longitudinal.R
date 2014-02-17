@@ -18,7 +18,7 @@
 #' @return data.frame
 #'
 #' @export
-#' @examples # merge_longitudinal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged")
+#' @examples # per_longi <-  merge_longi_personal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
@@ -48,55 +48,55 @@ per_data$PER_ID <- factor(paste(per_data$PB020,per_data$PB030, sep="_"))
 
 #--------------------------------------------------------------------#
 # merge data
-per_merge <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
+per_merge_longi <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
 #--------------------------------------------------------------------#
 # write files
 
 if (destination.path != "not_save") {
   if (format == "csv") {
-    save_path_personal <- paste(destination.path,"/per_merge.csv",sep="")
-    write.csv(per_merge, file=save_path_personal)  
+    save_path <- paste(destination.path,"/per_merge_longi.csv",sep="")
+    write.csv(per_merge_longi, file=save_path)  
   }
   
   if (format == "RData") {
-    save_path_personal <- paste(destination.path,"/per_merge.RData",sep="")
-    save(per_merge, file=save_path_personal)
+    save_path <- paste(destination.path,"/per_merge_longi.RData",sep="")
+    save(per_merge_longi, file=save_path)
   }
   
   if (format == "spss") {
     library(foreign)
-    save_path_personal_datafile <- paste(destination.path,"/per_merge.txt",sep="")
-    save_path_personal_codefile <- paste(destination.path,"/per_merge.sps",sep="")
-    write.foreign(per_merge,  
-                  codefile=save_path_personal_codefile,
-                  datafile=save_path_personal_datafile, 
+    save_path_datafile <- paste(destination.path,"/per_merge_longi.txt",sep="")
+    save_path_codefile <- paste(destination.path,"/per_merge_longi.sps",sep="")
+    write.foreign(per_merge_longi,  
+                  codefile=save_path_codefile,
+                  datafile=save_path_datafile, 
                   package="SPSS") 
   }
   
   if (format == "sas") {
     library(foreign)
-    save_path_personal_datafile <- paste(destination.path,"/per_merge.txt",sep="")
-    save_path_personal_codefile <- paste(destination.path,"/per_merge.sas",sep="")
-    write.foreign(per_merge,  
-                  codefile=save_path_personal_codefile,
-                  datafile=save_path_personal_datafile, 
+    save_path_datafile <- paste(destination.path,"/per_merge_longi.txt",sep="")
+    save_path_codefile <- paste(destination.path,"/per_merge_longi.sas",sep="")
+    write.foreign(per_merge_longi,  
+                  codefile=save_path_codefile,
+                  datafile=save_path_datafile, 
                   package="SAS") 
   }
   
   if (format == "stata") {
     library(foreign)
-    save_path_personal_datafile <- paste(destination.path,"/per_merge.csv",sep="")
-    save_path_personal_codefile <- paste(destination.path,"/per_merge.do",sep="")
-    write.foreign(per_merge,  
-                  codefile=save_path_personal_codefile,
-                  datafile=save_path_personal_datafile, 
+    save_path_datafile <- paste(destination.path,"/per_merge_longi.csv",sep="")
+    save_path_codefile <- paste(destination.path,"/per_merge_longi.do",sep="")
+    write.foreign(per_merge_longi,  
+                  codefile=save_path_codefile,
+                  datafile=save_path_datafile, 
                   package="Stata") 
   }
 }
 
 
-rm(list=setdiff(ls(), "per_merge"))
-per_merge
+rm(list=setdiff(ls(), "per_merge_longi"))
+per_merge_longi
 }
 
 
@@ -109,7 +109,7 @@ per_merge
 #' @return data.frame
 #'
 #' @export
-#' @examples # merge_longitudinal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged")
+#' @examples # hh_longi <-  merge_longi_household(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
@@ -140,54 +140,54 @@ merge_longi_household <- function(origin.path,destination.path,format) {
     
   #--------------------------------------------------------------------#
   # merge data
-  hh_merge <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
+  hh_merge_longi <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
   #--------------------------------------------------------------------#
   # write files
   
   if (destination.path != "not_save") {
     if (format == "csv") {
-      save_path_household <- paste(destination.path,"/per_merge.csv",sep="")
-      write.csv(per_merge, file=save_path_household)  
+      save_path <- paste(destination.path,"/hh_merge_longi.csv",sep="")
+      write.csv(hh_merge_longi, file=save_path)  
     }
     
     if (format == "RData") {
-      save_path_household <- paste(destination.path,"/per_merge.RData",sep="")
-      save(per_merge, file=save_path_household)
+      save_path <- paste(destination.path,"/hh_merge_longi.RData",sep="")
+      save(hh_merge_longi, file=save_path)
     }
     
     if (format == "spss") {
       library(foreign)
-      save_path_household_datafile <- paste(destination.path,"/per_merge.txt",sep="")
-      save_path_household_codefile <- paste(destination.path,"/per_merge.sps",sep="")
-      write.foreign(per_merge,  
-                    codefile=save_path_household_codefile,
-                    datafile=save_path_household_datafile, 
+      save_path_datafile <- paste(destination.path,"/hh_merge_longi.txt",sep="")
+      save_path_codefile <- paste(destination.path,"/hh_merge_longi.sps",sep="")
+      write.foreign(hh_merge_longi,  
+                    codefile=save_path_codefile,
+                    datafile=save_path_datafile, 
                     package="SPSS") 
     }
     
     if (format == "sas") {
       library(foreign)
-      save_path_household_datafile <- paste(destination.path,"/per_merge.txt",sep="")
-      save_path_household_codefile <- paste(destination.path,"/per_merge.sas",sep="")
-      write.foreign(per_merge,  
-                    codefile=save_path_household_codefile,
-                    datafile=save_path_household_datafile, 
+      save_path_datafile <- paste(destination.path,"/hh_merge_longi.txt",sep="")
+      save_path_codefile <- paste(destination.path,"/hh_merge_longi.sas",sep="")
+      write.foreign(hh_merge_longi,  
+                    codefile=save_path_codefile,
+                    datafile=save_path_datafile, 
                     package="SAS") 
     }
     
     if (format == "stata") {
       library(foreign)
-      save_path_household_datafile <- paste(destination.path,"/per_merge.csv",sep="")
-      save_path_household_codefile <- paste(destination.path,"/per_merge.do",sep="")
-      write.foreign(per_merge,  
-                    codefile=save_path_household_codefile,
-                    datafile=save_path_household_datafile, 
+      save_path_datafile <- paste(destination.path,"/hh_merge_longi.csv",sep="")
+      save_path_codefile <- paste(destination.path,"/hh_merge_longi.do",sep="")
+      write.foreign(hh_merge_longi,  
+                    codefile=save_path_codefile,
+                    datafile=save_path_datafile, 
                     package="Stata") 
     }
   }
   
   
-  rm(list=setdiff(ls(), "per_merge"))
-  per_merge
+  rm(list=setdiff(ls(), "hh_merge_longi"))
+  hh_merge_longi
 }
 
