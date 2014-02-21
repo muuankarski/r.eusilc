@@ -29,7 +29,7 @@
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
-merge_raw <- function(origin.path,
+merge_eusilc <- function(origin.path,
                       output.path,
                       level,
                       type,
@@ -57,6 +57,8 @@ merge_raw <- function(origin.path,
     path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
     per_data <- read.csv(path_personal_data, header = T, sep = ',')
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
+    
+    merged <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
   }
   
   # Household
@@ -70,14 +72,48 @@ merge_raw <- function(origin.path,
     path_household_data <- paste(origin.path,"/h_file.csv",sep="")
     hh_data <- read.csv(path_household_data, header = T, sep = ',')
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
-  }
-  
-  if (level == "personal") {
-    merged <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
-  }
-  if (level == "household") {
+    
     merged <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
   }
+  
+  # Both
+  if (level == "both") {
+    ## Personal register
+    path_personal_register <- paste(origin.path,"/r_file.csv",sep="")
+    per_reg <- read.csv(path_personal_register, header = T, sep = ',')
+    per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
+    per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
+    ## personal data
+    path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
+    per_data <- read.csv(path_personal_data, header = T, sep = ',')
+    per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
+    
+    ## household register
+    path_household_register <- paste(origin.path,"/d_file.csv",sep="")
+    hh_reg <- read.csv(path_household_register, header = T, sep = ',')
+    hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
+    hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
+    ## household data
+    path_household_data <- paste(origin.path,"/h_file.csv",sep="")
+    hh_data <- read.csv(path_household_data, header = T, sep = ',')
+    hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
+    
+    
+    per_merged <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
+    per_merged$HH_ID_Y <- factor(paste(per_merged$RB010,
+                                       per_merged$RB020,
+                                       per_merged$PX030, 
+                                       sep="_"))
+    
+    hh_merged <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
+    
+    merged <- merge(per_merged,
+                    hh_merged,
+                    by="HH_ID_Y",
+                    all=TRUE)
+  }
+  
+  
   
   # Subsetting
   ## variables
@@ -104,12 +140,21 @@ merge_raw <- function(origin.path,
   if (level == "household" & type == "cross-sectional") {
     save_path <- paste(output.path,"/",year,"hh_merge_cross",sep="")
   }
+  if (level == "both" & type == "cross-sectional") {
+    save_path <- paste(output.path,"/",year,"both_merge_cross",sep="")
+  }
+  
   if (level == "personal" & type == "longitudinal") {
     save_path <- paste(output.path,"/",year,"per_merge_longi",sep="")
   }
   if (level == "household" & type == "longitudinal") {
     save_path <- paste(output.path,"/",year,"hh_merge_longi",sep="")
   }
+  if (level == "both" & type == "longitudinal") {
+    save_path <- paste(output.path,"/",year,"both_merge_longi",sep="")
+  }
+  
+  
   
   if (output.path != "not_save") {
     if (format == "csv") {
@@ -134,6 +179,14 @@ merge_raw <- function(origin.path,
       if (level == "household" & type == "longitudinal") {
         hh_merge_longi <- merged
         save(hh_merge_longi, file=save_path_rdata)
+      }
+      if (level == "both" & type == "cross-sectional") {
+        both_merge_cross <- merged
+        save(both_merge_cross, file=save_path_rdata)
+      }
+      if (level == "both" & type == "longitudinal") {
+        both_merge_longi <- merged
+        save(both_merge_longi, file=save_path_rdata)
       }
     }
     

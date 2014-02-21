@@ -1,9 +1,9 @@
-\name{merge_longi_personal}
-\alias{merge_longi_personal}
-\title{Merge eu-silc personal level longitudinal raw .csv datasets, personal_register and personal_data}
+\name{merge_eusilc}
+\alias{merge_eusilc}
+\title{Merge eu-silc personal level cross-sectional raw .csv datasets, personal_register and personal_data}
 \usage{
-merge_longi_personal(origin.path, destination.path, format,
-  data.table = FALSE, subset.vars = "all", subset.countries = "all")
+merge_eusilc(origin.path, output.path, level, type, year, format,
+  subset.vars = "all", subset.countries = "all")
 }
 \arguments{
   \item{origin.path}{A string. Specify the path where to
@@ -12,6 +12,15 @@ merge_longi_personal(origin.path, destination.path, format,
   \item{destination.path}{A string. Specify the path where
   to save the merged file. value=/code{"not_save"} does not
   save the merged file}
+
+  \item{level}{A string. Specify the whether to merge
+  /code{"personal"} or /code{"household"} level datas}
+
+  \item{type}{A string. Specify the whether to merge
+  /code{"personal"} or /code{"household"} level datas}
+
+  \item{year}{A string. Specify the year from what year
+  data is in question}
 
   \item{format}{A string. Specify the output format for
   merged data.
@@ -29,11 +38,11 @@ merge_longi_personal(origin.path, destination.path, format,
 data.frame
 }
 \description{
-Merge eu-silc personal level longitudinal raw .csv
+Merge eu-silc personal level cross-sectional raw .csv
 datasets, personal_register and personal_data
 }
 \examples{
-# per_longi <-  merge_longi_personal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
+# per_cross <-  merge_cross_personal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
 }
 \author{
 Markus Kainu <markuskainu(at)gmail.com>

@@ -11,10 +11,46 @@ library(devtools)
 install_github("r.eusilc","muuankarski")
 ```
 
-Installation
+Examples
 ---------------------------------
 
+<!--
 Look [muuankarski.github.io/r-eusilc-workshop/](http://muuankarski.github.io/r-eusilc-workshop/) for examples.
+-->
+
+
+```r
+dat_hh_cross <- merge_eusilc(origin.path="~/data/eu_silc/2010/cross_rev3",
+                          output.path="~/data_temp/",
+                          level="household",
+                          type="cross-sectional",
+                          year="2010",
+                          format="RData",
+                          subset.vars="all",
+                          subset.countries="all") 
+
+
+dat_per_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2",
+                          output.path="~/data_temp/",
+                          level="personal",
+                          type="longitudinal",
+                          year="2010",
+                          format="RData",
+                          subset.vars="all",
+                          subset.countries="all") 
+
+
+dat_both_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2",
+                              output.path="~/data_temp/",
+                              level="both",
+                              type="longitudinal",
+                              year="2010",
+                              format="RData",
+                              subset.vars="all",
+                              subset.countries="all") 
+
+```
+
 
 <!--
 
