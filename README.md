@@ -11,6 +11,14 @@ library(devtools)
 install_github("r.eusilc","muuankarski")
 ```
 
+Get the documentation by running
+
+```r
+library(r.eusilc)
+?merge_eusilc
+```
+
+
 Examples
 ---------------------------------
 
