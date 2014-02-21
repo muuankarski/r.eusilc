@@ -13,19 +13,19 @@
 #' Merge eu-silc personal level cross-sectional raw .csv datasets, personal_register and personal_data
 #'
 #' @param origin.path A string. Specify the path where to load the original csv files.
-#' @param destination.path A string. Specify the path where to save the merged file. value=/code{"not_save"} does not save the merged file
-#' @param level A string. Specify the whether to merge /code{"personal"} or /code{"household"} level datas
-#' @param type A string. Specify the whether to merge /code{"personal"} or /code{"household"} level datas
+#' @param destination.path A string. Specify the path where to save the merged file. value=\code{"not_save"} does not save the merged file
+#' @param level A string. Specify the whether to merge \code{"personal"}, \code{"household"} or \code{"both"} level datas. Both stands for merging all the four datas at personal level
+#' @param type A string. Specify the whether to merge \code{"cross-sectional"} or \code{"longitudinal"} level datas
 #' @param year A string. Specify the year from what year data is in question
-#' @param format A string. Specify the output format for merged data. values=/code{"csv","RData","spss","sas","stata"} 
-#' @param subset.vars A string. Specify subset of variables from both datas. /code{"all"} includes all the variables.
-#' @param subset.countries A string. Specify subset of countries. In /code{c("FI","SE")} format.  /code{"all"} includes all the countries.
+#' @param format A string. Specify the output format for merged data. values=\code{"csv","RData","spss","sas" or "stata"} 
+#' @param subset.vars A string. Specify subset of variables from both datas. \code{"all"} includes all the variables.
+#' @param subset.countries A string. Specify subset of countries. In \code{c("FI","SE")} format.  \code{"all"} includes all the countries.
 #'
 #'
 #' @return data.frame
 #'
 #' @export
-#' @examples # per_cross <-  merge_cross_personal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
+#' @examples # dat_per_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2", output.path="~/data_temp/",level="personal",type="longitudinal",year="2010",format="RData",subset.vars="all",subset.countries="all") 
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
