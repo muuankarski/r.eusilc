@@ -14,10 +14,6 @@ install_github("r.eusilc","muuankarski")
 Examples
 ---------------------------------
 
-<!--
-Look [muuankarski.github.io/r-eusilc-workshop/](http://muuankarski.github.io/r-eusilc-workshop/) for examples.
--->
-
 
 ```r
 dat_hh_cross <- merge_eusilc(origin.path="~/data/eu_silc/2010/cross_rev3",
@@ -51,6 +47,7 @@ dat_both_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2",
 
 ```
 
+Look [muuankarski.github.io/r-eusilc-workshop/](http://muuankarski.github.io/r-eusilc-workshop/) for further examples.
 
 <!--
 

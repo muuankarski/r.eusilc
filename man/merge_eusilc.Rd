@@ -10,28 +10,28 @@ merge_eusilc(origin.path, output.path, level, type, year, format,
   load the original csv files.}
 
   \item{destination.path}{A string. Specify the path where
-  to save the merged file. value=/code{"not_save"} does not
+  to save the merged file. value=\code{"not_save"} does not
   save the merged file}
 
   \item{level}{A string. Specify the whether to merge
-  /code{"personal"} or /code{"household"} level datas}
+  \code{"personal"} or \code{"household"} level datas}
 
   \item{type}{A string. Specify the whether to merge
-  /code{"personal"} or /code{"household"} level datas}
+  \code{"personal"} or \code{"household"} level datas}
 
   \item{year}{A string. Specify the year from what year
   data is in question}
 
   \item{format}{A string. Specify the output format for
   merged data.
-  values=/code{"csv","RData","spss","sas","stata"}}
+  values=\code{"csv","RData","spss","sas","stata"}}
 
   \item{subset.vars}{A string. Specify subset of variables
-  from both datas. /code{"all"} includes all the
+  from both datas. \code{"all"} includes all the
   variables.}
 
   \item{subset.countries}{A string. Specify subset of
-  countries. In /code{c("FI","SE")} format.  /code{"all"}
+  countries. In \code{c("FI","SE")} format.  \code{"all"}
   includes all the countries.}
 }
 \value{
@@ -42,7 +42,7 @@ Merge eu-silc personal level cross-sectional raw .csv
 datasets, personal_register and personal_data
 }
 \examples{
-# per_cross <-  merge_cross_personal(origin.path = "~/eusilc_raw", destination.path="~/eusilc_merged", format="RData")
+# dat_per_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2", output.path="~/data_temp/",level="personal",type="longitudinal",year="2010",format="RData",subset.vars="all",subset.countries="all")
 }
 \author{
 Markus Kainu <markuskainu(at)gmail.com>
