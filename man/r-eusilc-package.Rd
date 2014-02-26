@@ -23,18 +23,21 @@ License: \tab FreeBSD\cr
 Markus Kainu
 
 Maintainer: Markus Kainu <markuskainu@gmail.com>
-~~ The author and/or maintainer of the package ~~
 }
 \references{
-~~ Literature or other references for background information ~~
+
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation ~~
-~~ directory ~~
 \keyword{ eu-silc }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link[<pkg>:<pkg>-package]{<pkg>}}
 }
 \examples{
-~~ simple examples of the most important functions ~~
+dat_per_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2",
+                          output.path="~/data_temp/",
+                          level="personal",
+                          type="longitudinal",
+                          year="2010",
+                          format="RData",
+                          subset.vars="all",
+                          subset.countries="all") 
 }
