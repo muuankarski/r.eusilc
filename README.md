@@ -22,5 +22,4 @@ library(r.eusilc)
 Examples
 ---------------------------------
 
-
-See []
+See preliminary tutorial at [muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html](http://muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html)
