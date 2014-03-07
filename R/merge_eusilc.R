@@ -44,7 +44,7 @@ merge_eusilc <- function(origin.path,
   if(!exists("type")) stop("type not defined")
   if(!exists("year")) stop("year not defined")
   if(!exists("format")) stop("format not defined")
-  if(!(format %in% c("csv","RData","spss","sas","stata"))) stop("Wrong format. Use csv,RData,spss,sas,stata")
+  if(!(format %in% c("csv","RData","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RData,SPSS,SAS,Stata")
   
   # Personal
   if (level == "personal") {
@@ -190,7 +190,7 @@ merge_eusilc <- function(origin.path,
       }
     }
     
-    if (format == "spss") {
+    if (format == "SPSS") {
       library(foreign)
       save_path_datafile <- paste(save_path,".txt",sep="")
       save_path_codefile <- paste(save_path,".sps",sep="")
@@ -200,7 +200,7 @@ merge_eusilc <- function(origin.path,
                     package="SPSS") 
     }
     
-    if (format == "sas") {
+    if (format == "SAS") {
       library(foreign)
       save_path_datafile <- paste(save_path,".txt",sep="")
       save_path_codefile <- paste(save_path,".sas",sep="")
@@ -210,14 +210,14 @@ merge_eusilc <- function(origin.path,
                     package="SAS") 
     }
     
-    if (format == "stata") {
+    if (format == "Stata") {
       library(foreign)
       save_path_datafile <- paste(save_path,".csv",sep="")
       save_path_codefile <- paste(save_path,".do",sep="")
       write.foreign(merged,  
                     codefile=save_path_codefile,
                     datafile=save_path_datafile, 
-                    package="stata") 
+                    package="Stata") 
     }
   }
   

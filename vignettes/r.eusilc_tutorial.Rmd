@@ -254,9 +254,9 @@ ggplot(plot_data, aes(x=RB010, y=PY010N, group=PER_ID)) +
 
 ```{rcase5data, eval=FALSE}
 library(r.eusilc)
-per_longi_2009 <- merge_eusilc(origin.path="~/demo_data/eusilc_raw/2009/longi_rev2",
+per_longi_2009 <- merge_eusilc(origin.path="~/demo_data/eusilc_raw/2009/longi_rev3",
                               output.path="~/demo_data/eusilc_merged/2009",
-                              level="personal",
+                              level="both",
                               type="longitudinal",
                               year="2010",
                               format="RData",
@@ -265,7 +265,7 @@ per_longi_2009 <- merge_eusilc(origin.path="~/demo_data/eusilc_raw/2009/longi_re
 
 per_longi_2010 <- merge_eusilc(origin.path="~/demo_data/eusilc_raw/2010/longi_rev2",
                               output.path="~/demo_data/eusilc_merged/2010",
-                              level="personal",
+                              level="both",
                               type="longitudinal",
                               year="2010",
                               format="RData",
