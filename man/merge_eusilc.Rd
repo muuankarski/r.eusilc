@@ -26,8 +26,8 @@ merge_eusilc(origin.path, output.path, level, type, year, format,
   data is in question}
 
   \item{format}{A string. Specify the output format for
-  merged data. values=\code{"csv","RData","spss","sas" or
-  "stata"}}
+  merged data. values=\code{"csv","RData","SPSS","SAS" or
+  "Stata"}}
 
   \item{subset.vars}{A string. Specify subset of variables
   from both datas. \code{"all"} includes all the
