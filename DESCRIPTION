@@ -1,7 +1,7 @@
 Package: r.eusilc
 Type: Package
 Title: Merge eu-silc cross-sectional and longitudinal raw .csv datasets
-Version: 0.1
+Version: 0.1.1
 Date: 2014-02-12
 Author: Markus Kainu
 Maintainer: Markus Kainu <markuskainu@gmail.com>
