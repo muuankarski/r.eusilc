@@ -3,7 +3,9 @@
 \title{Merge eu-silc personal level cross-sectional raw .csv datasets, personal_register and personal_data}
 \usage{
 merge_eusilc(origin.path, output.path, level, type, year, format,
-  subset.vars = "all", subset.countries = "all")
+  subset.vars.per.reg = "all", subset.vars.per.data = "all",
+  subset.vars.hh.reg = "all", subset.vars.hh.data = "all",
+  subset.countries = "all")
 }
 \arguments{
   \item{origin.path}{A string. Specify the path where to
@@ -29,9 +31,21 @@ merge_eusilc(origin.path, output.path, level, type, year, format,
   merged data. values=\code{"csv","RData","SPSS","SAS" or
   "Stata"}}
 
-  \item{subset.vars}{A string. Specify subset of variables
-  from both datas. \code{"all"} includes all the
-  variables.}
+  \item{subset.vars.per.reg.}{A string. Specify subset of
+  variables from personal register file. \code{"all"}
+  includes all the variables.}
+
+  \item{subset.vars.per.data.}{A string. Specify subset of
+  variables from personal data file. \code{"all"} includes
+  all the variables.}
+
+  \item{subset.vars.hh.reg.}{A string. Specify subset of
+  variables from household register file. \code{"all"}
+  includes all the variables.}
+
+  \item{subset.vars.hh.data.}{A string. Specify subset of
+  variables from household data file. \code{"all"} includes
+  all the variables.}
 
   \item{subset.countries}{A string. Specify subset of
   countries. In \code{c("FI","SE")} format.  \code{"all"}

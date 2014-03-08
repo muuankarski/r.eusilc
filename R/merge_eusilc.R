@@ -18,7 +18,10 @@
 #' @param type A string. Specify the whether to merge \code{"cross-sectional"} or \code{"longitudinal"} level datas
 #' @param year A string. Specify the year from what year data is in question
 #' @param format A string. Specify the output format for merged data. values=\code{"csv","RData","SPSS","SAS" or "Stata"} 
-#' @param subset.vars A string. Specify subset of variables from both datas. \code{"all"} includes all the variables.
+#' @param subset.vars.per.reg. A string. Specify subset of variables from personal register file. \code{"all"} includes all the variables.
+#' @param subset.vars.per.data. A string. Specify subset of variables from personal data file. \code{"all"} includes all the variables.
+#' @param subset.vars.hh.reg. A string. Specify subset of variables from household register file. \code{"all"} includes all the variables.
+#' @param subset.vars.hh.data. A string. Specify subset of variables from household data file. \code{"all"} includes all the variables.
 #' @param subset.countries A string. Specify subset of countries. In \code{c("FI","SE")} format.  \code{"all"} includes all the countries.
 #'
 #'
@@ -35,7 +38,10 @@ merge_eusilc <- function(origin.path,
                       type,
                       year,
                       format,
-                      subset.vars="all",
+                      subset.vars.per.reg="all",
+                      subset.vars.per.data="all",
+                      subset.vars.hh.reg="all",
+                      subset.vars.hh.data="all",
                       subset.countries="all") {
   
   if(!exists("origin.path")) stop("origin.path not defined")
@@ -45,7 +51,7 @@ merge_eusilc <- function(origin.path,
   if(!exists("year")) stop("year not defined")
   if(!exists("format")) stop("format not defined")
   if(!(format %in% c("csv","RData","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RData,SPSS,SAS,Stata")
-  
+   
   # Personal
   if (level == "personal") {
     ## personal register
@@ -53,11 +59,31 @@ merge_eusilc <- function(origin.path,
     per_reg <- read.csv(path_personal_register, header = T, sep = ',')
     per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
+    
+    # subset the data before merging
+    if (subset.vars == "all") {
+        per_reg <- per_reg
+    } else per_reg <- per_reg[, subset.vars.per.reg]
+    # countries
+    if (subset.countries == "all") {
+        per_reg <- per_reg
+        } else  per_reg <- per_reg[per_reg$RB020 %in% subset.countries,]
+    
     ## personal data
     path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
     per_data <- read.csv(path_personal_data, header = T, sep = ',')
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
     
+    # subset the data before merging
+    if (subset.vars == "all") {
+        per_data <- per_data
+    } else per_data <- per_data[, subset.vars.per.data]
+    # countries
+    if (subset.countries == "all") {
+        per_data <- per_data
+    } else  per_data <- per_data[per_data$PB020 %in% subset.countries,]
+    
+    # merge personal register with personal data
     merged <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
   }
   
@@ -68,11 +94,31 @@ merge_eusilc <- function(origin.path,
     hh_reg <- read.csv(path_household_register, header = T, sep = ',')
     hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
+    
+    # subset the data before merging
+    if (subset.vars == "all") {
+        hh_reg <- hh_reg
+    } else hh_reg <- hh_reg[, subset.vars.hh.reg]
+    # countries
+    if (subset.countries == "all") {
+        hh_reg <- hh_reg
+    } else  hh_reg <- hh_reg[hh_reg$PB020 %in% subset.countries,]
+        
     ## household data
     path_household_data <- paste(origin.path,"/h_file.csv",sep="")
     hh_data <- read.csv(path_household_data, header = T, sep = ',')
-    hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
+    hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_")) 
     
+    # subset the data before merging
+    if (subset.vars == "all") {
+        hh_data <- hh_data
+    } else hh_data <- hh_data[, subset.vars.hh.data]
+    # countries
+    if (subset.countries == "all") {
+        hh_data <- hh_data
+    } else  hh_data <- hh_data[hh_data$PB020 %in% subset.countries,]
+        
+    # merge household register with household data
     merged <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
   }
   
@@ -83,22 +129,66 @@ merge_eusilc <- function(origin.path,
     per_reg <- read.csv(path_personal_register, header = T, sep = ',')
     per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
+    
+    # subset the data before merging
+    if (subset.vars == "all") {
+        per_reg <- per_reg
+    } else per_reg <- per_reg[, subset.vars.per.reg]
+    # countries
+    if (subset.countries == "all") {
+        per_reg <- per_reg
+    } else  per_reg <- per_reg[per_reg$PB020 %in% subset.countries,]
+    
+    
     ## personal data
     path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
     per_data <- read.csv(path_personal_data, header = T, sep = ',')
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
+
+    # subset the data before merging
+    if (subset.vars == "all") {
+        per_data <- per_data
+    } else per_data <- per_data[, subset.vars.per.data]
+    # countries
+    if (subset.countries == "all") {
+        per_data <- per_data
+    } else  per_data <- per_data[per_data$PB020 %in% subset.countries,]
+    
+    
     
     ## household register
     path_household_register <- paste(origin.path,"/d_file.csv",sep="")
     hh_reg <- read.csv(path_household_register, header = T, sep = ',')
     hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
+    
+    # subset the data before merging
+    if (subset.vars == "all") {
+        hh_reg <- hh_reg
+    } else hh_reg <- hh_reg[, subset.vars.hh.reg]
+    # countries
+    if (subset.countries == "all") {
+        hh_reg <- hh_reg
+    } else  hh_reg <- hh_reg[hh_reg$PB020 %in% subset.countries,]
+    
+    
+    
     ## household data
     path_household_data <- paste(origin.path,"/h_file.csv",sep="")
     hh_data <- read.csv(path_household_data, header = T, sep = ',')
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
     
+    # subset the data before merging
+    if (subset.vars == "all") {
+        hh_data <- hh_data
+    } else hh_data <- hh_data[, subset.vars.hh.data]
+    # countries
+    if (subset.countries == "all") {
+        hh_data <- hh_data
+    } else  hh_data <- hh_data[hh_data$PB020 %in% subset.countries,]
     
+    
+        
     per_merged <- merge(per_reg,per_data,by="PER_ID_Y", all=TRUE)
     per_merged$HH_ID_Y <- factor(paste(per_merged$RB010,
                                        per_merged$RB020,
@@ -117,21 +207,23 @@ merge_eusilc <- function(origin.path,
   
   # Subsetting
   ## variables
-  if (subset.vars == "all") {
-    merged <- merged
-  } else merged <- merged[, c(subset.vars)] 
+#   if (subset.vars == "all") {
+#     merged <- merged
+#   } else merged <- merged[, c(subset.vars)] 
   ## countries
-  if (level == "personal") {
-    if (subset.countries == "all") {
-      merged <- merged
-    } else  merged <- merged[merged$RB020 %in% c(subset.countries),]
-  }
-  if (level == "household") {
-    if (subset.countries == "all") {
-      merged <- merged
-    } else  merged <- merged[merged$DB020 %in% c(subset.countries),]
-  }
-  
+
+###########################################3
+#   if (level == "personal") {
+#     if (subset.countries == "all") {
+#       merged <- merged
+#     } else  merged <- merged[merged$RB020 %in% c(subset.countries),]
+#   }
+#   if (level == "household") {
+#     if (subset.countries == "all") {
+#       merged <- merged
+#     } else  merged <- merged[merged$DB020 %in% c(subset.countries),]
+#   }
+#   
   # write files
   
   if (level == "personal" & type == "cross-sectional") {
