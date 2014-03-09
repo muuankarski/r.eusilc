@@ -52,6 +52,14 @@ merge_eusilc <- function(origin.path,
   if(!exists("format")) stop("format not defined")
   if(!(format %in% c("csv","RData","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RData,SPSS,SAS,Stata")
    
+  # Add new created id vars to vectors of subsetted vars
+  
+  subset.vars.per.reg <- append(subset.vars.per.reg, c("PER_ID","PER_ID_Y","RB010","RB020"), after=0)
+  subset.vars.per.data <- append(subset.vars.per.data, c("PER_ID_Y","PX030","PB020"), after=0)
+  
+  subset.vars.hh.reg <- append(subset.vars.hh.reg, c("HH_ID","HH_ID_Y","DB020"), after=0)
+  subset.vars.hh.data <- append(subset.vars.hh.data, c("HH_ID_Y","HB020"), after=0)
+  
   # Personal
   if (level == "personal") {
     ## personal register
@@ -61,7 +69,7 @@ merge_eusilc <- function(origin.path,
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.per.reg == "all") {
         per_reg <- per_reg
     } else per_reg <- per_reg[, subset.vars.per.reg]
     # countries
@@ -75,7 +83,7 @@ merge_eusilc <- function(origin.path,
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.per.data == "all") {
         per_data <- per_data
     } else per_data <- per_data[, subset.vars.per.data]
     # countries
@@ -96,13 +104,13 @@ merge_eusilc <- function(origin.path,
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.hh.reg == "all") {
         hh_reg <- hh_reg
     } else hh_reg <- hh_reg[, subset.vars.hh.reg]
     # countries
     if (subset.countries == "all") {
         hh_reg <- hh_reg
-    } else  hh_reg <- hh_reg[hh_reg$PB020 %in% subset.countries,]
+    } else  hh_reg <- hh_reg[hh_reg$DB020 %in% subset.countries,]
         
     ## household data
     path_household_data <- paste(origin.path,"/h_file.csv",sep="")
@@ -110,13 +118,13 @@ merge_eusilc <- function(origin.path,
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_")) 
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.hh.data == "all") {
         hh_data <- hh_data
     } else hh_data <- hh_data[, subset.vars.hh.data]
     # countries
     if (subset.countries == "all") {
         hh_data <- hh_data
-    } else  hh_data <- hh_data[hh_data$PB020 %in% subset.countries,]
+    } else  hh_data <- hh_data[hh_data$HB020 %in% subset.countries,]
         
     # merge household register with household data
     merged <- merge(hh_reg,hh_data,by="HH_ID_Y", all=TRUE)
@@ -131,7 +139,7 @@ merge_eusilc <- function(origin.path,
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.per.reg == "all") {
         per_reg <- per_reg
     } else per_reg <- per_reg[, subset.vars.per.reg]
     # countries
@@ -146,7 +154,7 @@ merge_eusilc <- function(origin.path,
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
 
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.per.data == "all") {
         per_data <- per_data
     } else per_data <- per_data[, subset.vars.per.data]
     # countries
@@ -163,13 +171,13 @@ merge_eusilc <- function(origin.path,
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.hh.reg == "all") {
         hh_reg <- hh_reg
     } else hh_reg <- hh_reg[, subset.vars.hh.reg]
     # countries
     if (subset.countries == "all") {
         hh_reg <- hh_reg
-    } else  hh_reg <- hh_reg[hh_reg$PB020 %in% subset.countries,]
+    } else  hh_reg <- hh_reg[hh_reg$DB020 %in% subset.countries,]
     
     
     
@@ -179,13 +187,13 @@ merge_eusilc <- function(origin.path,
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
     
     # subset the data before merging
-    if (subset.vars == "all") {
+    if (subset.vars.hh.data == "all") {
         hh_data <- hh_data
     } else hh_data <- hh_data[, subset.vars.hh.data]
     # countries
     if (subset.countries == "all") {
         hh_data <- hh_data
-    } else  hh_data <- hh_data[hh_data$PB020 %in% subset.countries,]
+    } else  hh_data <- hh_data[hh_data$HB020 %in% subset.countries,]
     
     
         
