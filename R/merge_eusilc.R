@@ -63,7 +63,7 @@ merge_eusilc <- function(origin.path,
   # Personal
   if (level == "personal") {
     ## personal register
-    path_personal_register <- paste(origin.path,"/r_file.csv",sep="")
+    path_personal_register <- paste(origin.path,"r_file.csv",sep="")
     per_reg <- read.csv(path_personal_register, header = T, sep = ',')
     per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
@@ -78,7 +78,7 @@ merge_eusilc <- function(origin.path,
         } else  per_reg <- per_reg[per_reg$RB020 %in% subset.countries,]
     
     ## personal data
-    path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
+    path_personal_data <- paste(origin.path,"p_file.csv",sep="")
     per_data <- read.csv(path_personal_data, header = T, sep = ',')
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
     
@@ -98,7 +98,7 @@ merge_eusilc <- function(origin.path,
   # Household
   if (level == "household") {
     ## household register
-    path_household_register <- paste(origin.path,"/d_file.csv",sep="")
+    path_household_register <- paste(origin.path,"d_file.csv",sep="")
     hh_reg <- read.csv(path_household_register, header = T, sep = ',')
     hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
@@ -113,7 +113,7 @@ merge_eusilc <- function(origin.path,
     } else  hh_reg <- hh_reg[hh_reg$DB020 %in% subset.countries,]
         
     ## household data
-    path_household_data <- paste(origin.path,"/h_file.csv",sep="")
+    path_household_data <- paste(origin.path,"h_file.csv",sep="")
     hh_data <- read.csv(path_household_data, header = T, sep = ',')
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_")) 
     
@@ -133,7 +133,7 @@ merge_eusilc <- function(origin.path,
   # Both
   if (level == "both") {
     ## Personal register
-    path_personal_register <- paste(origin.path,"/r_file.csv",sep="")
+    path_personal_register <- paste(origin.path,"r_file.csv",sep="")
     per_reg <- read.csv(path_personal_register, header = T, sep = ',')
     per_reg$PER_ID_Y <- factor(paste(per_reg$RB010,per_reg$RB020,per_reg$RB030, sep="_"))
     per_reg$PER_ID <- factor(paste(per_reg$RB020,per_reg$RB030, sep="_"))
@@ -149,7 +149,7 @@ merge_eusilc <- function(origin.path,
     
     
     ## personal data
-    path_personal_data <- paste(origin.path,"/p_file.csv",sep="")
+    path_personal_data <- paste(origin.path,"p_file.csv",sep="")
     per_data <- read.csv(path_personal_data, header = T, sep = ',')
     per_data$PER_ID_Y <- factor(paste(per_data$PB010,per_data$PB020,per_data$PB030, sep="_"))
 
@@ -165,7 +165,7 @@ merge_eusilc <- function(origin.path,
     
     
     ## household register
-    path_household_register <- paste(origin.path,"/d_file.csv",sep="")
+    path_household_register <- paste(origin.path,"d_file.csv",sep="")
     hh_reg <- read.csv(path_household_register, header = T, sep = ',')
     hh_reg$HH_ID_Y <- factor(paste(hh_reg$DB010,hh_reg$DB020,hh_reg$DB030, sep="_"))
     hh_reg$HH_ID <- factor(paste(hh_reg$DB020,hh_reg$DB030, sep="_"))
@@ -182,7 +182,7 @@ merge_eusilc <- function(origin.path,
     
     
     ## household data
-    path_household_data <- paste(origin.path,"/h_file.csv",sep="")
+    path_household_data <- paste(origin.path,"h_file.csv",sep="")
     hh_data <- read.csv(path_household_data, header = T, sep = ',')
     hh_data$HH_ID_Y <- factor(paste(hh_data$HB010,hh_data$HB020,hh_data$HB030, sep="_"))  
     
