@@ -55,10 +55,10 @@ merge_eusilc <- function(origin.path,
   # Add new created id vars to vectors of subsetted vars
   
   subset.vars.per.reg <- append(subset.vars.per.reg, c("PER_ID","PER_ID_Y","RB010","RB020"), after=0)
-  subset.vars.per.data <- append(subset.vars.per.data, c("PER_ID_Y","PX030"), after=0)
+  subset.vars.per.data <- append(subset.vars.per.data, c("PER_ID_Y","PX030","PB020"), after=0)
   
   subset.vars.hh.reg <- append(subset.vars.hh.reg, c("HH_ID","HH_ID_Y","DB020"), after=0)
-  subset.vars.hh.data <- append(subset.vars.hh.data, c("HH_ID_Y"), after=0)
+  subset.vars.hh.data <- append(subset.vars.hh.data, c("HH_ID_Y","HB020"), after=0)
   
   # Personal
   if (level == "personal") {
