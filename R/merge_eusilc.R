@@ -308,3 +308,52 @@ subset.vars.hh <- function(data) {
   rm(list=setdiff(ls(), "merged"))
   return(merged)
 }
+
+
+check_variables <- function(file,
+                            origin.path) {
+  if (file == "personal_register") {
+    ## personal register
+    per.reg <- read.csv(paste(origin.path,"r_file.csv",sep=""), 
+                           header = T, sep = ',')
+    return(as.data.frame(names(per.reg)))
+  }
+  if (file == "personal_data") {
+    ## personal data
+    per.data <- read.csv(paste(origin.path,"p_file.csv",sep=""), 
+                           header = T, sep = ',')
+    return(as.data.frame(names(per.data)))
+  }
+  if (file == "household_register") {
+    ## personal register
+    hh.reg <- read.csv(paste(origin.path,"d_file.csv",sep=""), 
+                           header = T, sep = ',')
+    return(as.data.frame(names(hh.reg)))
+  }
+  if (file == "household_data") {
+    ## personal register
+    hh.data <- read.csv(paste(origin.path,"h_file.csv",sep=""), 
+                           header = T, sep = ',')
+    return(as.data.frame(names(hh.data)))
+  }
+  
+#     na.table <- function(x) {
+#       x <- factor(x)
+#       tbl <- as.data.frame(table(x, useNA = "ifany"))
+#       nas <- as.numeric(tbl[is.na(tbl$x),][2])
+#       non_nas <- as.numeric(sum(tbl[!is.na(tbl$x),][2]),na.rm=T)
+#       na_share <- nas / (nas + non_nas) * 100
+#       non_na_share <- non_nas / (nas + non_nas) * 100
+#       sum.vector <- c(nas,non_nas,na_share,non_na_share)
+#       sum.vector <- round(sum.vector,1)
+#       return(sum.vector)
+#       }
+#     
+#     f <- as.data.frame(t(sapply(eusilc.dat,function(x) rbind(na.table(x)))))
+#     f$varname <- rownames(f)
+#     names(f) <- c("NA's","non NA's","NA share","non NA share","varnames")
+#     f <- f[,c(5,1,2,3,4)]
+#     f <- f[-1,]
+#     return(f)
+}
+

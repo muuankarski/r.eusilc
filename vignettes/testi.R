@@ -4,6 +4,10 @@
 # var.hh.data <- c("HB010","HB020","HB030")
 # clist <- c("FI","SE","EE")
 
+path.cross.2010 <- "~/data/demo_data/eusilc_raw/2010/cross_rev3/"
+path.longi.2010 <- "~/data/demo_data/eusilc_raw/2010/longi_rev2/"
+output.2010 <- "~/Asiakirjat/"
+
 path.cross.2010 <- "~/data/demo_data/eusilc_subset/2010/cross_rev3/"
 path.longi.2010 <- "~/data/demo_data/eusilc_subset/2010/longi_rev2/"
 output.2010 <- "~/data/demo_data/eusilc_subset/2010/"
@@ -84,11 +88,12 @@ both_longi_2010 <- merge_eusilc(origin.path=path.longi.2010,
                                 type="longitudinal",
                                 year="2010",
                                 format="RData"),
-                                subset.vars.hh.reg = c("DB090"),
+                                subset.vars.hh.reg = c("DB040","DB070"),
                                 subset.vars.hh.data = c("HY020","HY022"),
-                                subset.vars.per.reg = c("RB050","RB090"),
-                                subset.vars.per.data = c("PE010","PL025"),
-                                subset.countries = "DE")
+                                subset.vars.per.reg = c("RB080","RB090"),
+                                subset.vars.per.data = c("PE040","PL025"),
+                                subset.countries = "PL")
+
 
 
 d_file <- read.csv("~/data/demo_data/eusilc_subset/2008/longi_rev3/d_file.csv")
