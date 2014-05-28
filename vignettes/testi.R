@@ -3,14 +3,17 @@
 # var.hh.reg <- c("DB010","DB020","DB060")
 # var.hh.data <- c("HB010","HB020","HB030")
 # clist <- c("FI","SE","EE")
+library(r.eusilc)
 
 path.cross.2010 <- "~/data/demo_data/eusilc_raw/2010/cross_rev3/"
 path.longi.2010 <- "~/data/demo_data/eusilc_raw/2010/longi_rev2/"
-output.2010 <- "~/Asiakirjat/"
+output.2010 <- "not_save"
+# output.2010 <- "~/Asiakirjat/"
 
 path.cross.2010 <- "~/data/demo_data/eusilc_subset/2010/cross_rev3/"
 path.longi.2010 <- "~/data/demo_data/eusilc_subset/2010/longi_rev2/"
-output.2010 <- "~/data/demo_data/eusilc_subset/2010/"
+output.2010 <- "not_save"
+#output.2010 <- "~/data/demo_data/eusilc_subset/2010/"
 
 
 origin.path <- "~/data/demo_data/eusilc_subset/2010/cross_rev3/"
@@ -31,11 +34,12 @@ hh_cross_2010 <- merge_eusilc(origin.path=path.cross.2010,
                               level="household",
                               type="cross-sectional",
                               year="2010",
-                              format="RData",
+                              format="RData"),
                               subset.vars.hh.reg = c("DB090"),
                               subset.vars.hh.data = c("HY020","HY022"),
                               subset.countries = c("DE","PL")) 
 
+table(hh_cross_2010$HB020, useNA = "ifany")
 
 per_cross_2010 <- merge_eusilc(origin.path=path.cross.2010,
                               output.path=output.2010,
@@ -47,19 +51,29 @@ per_cross_2010 <- merge_eusilc(origin.path=path.cross.2010,
                               subset.vars.per.data = c("PE010","PL025"),
                               subset.countries = "DE") 
 
+table(per_cross_2010$RB020, useNA = "ifany")
+
+
 both_cross_2010 <- merge_eusilc(origin.path=path.cross.2010,
                                output.path=output.2010,
                                level="both",
                                type="cross-sectional",
                                year="2010",
-                               format="RData",
+                               format="RData"),
                                subset.vars.hh.reg = c("DB090"),
                                subset.vars.hh.data = c("HY020","HY022"),
                                subset.vars.per.reg = c("RB050","RB090"),
                                subset.vars.per.data = c("PE010","PL025"),
                                subset.countries = "DE")
 
+table(both_cross_2010$RB020, useNA = "ifany")
+table(both_cross_2010$PB020, useNA = "ifany")
 
+table(both_cross_2010$HB020, useNA = "ifany")
+table(both_cross_2010$DB020, useNA = "ifany")
+
+
+table(both_cross_2010$PB020, useNA = "ifany")
 
 hh_longi_2010 <- merge_eusilc(origin.path=path.longi.2010,
                               output.path=output.2010,
@@ -71,16 +85,25 @@ hh_longi_2010 <- merge_eusilc(origin.path=path.longi.2010,
                               subset.vars.hh.data = c("HY020","HY022"),
                               subset.countries = c("DE","PL")) 
 
+table(hh_longi_2010$DB020, useNA = "ifany")
+table(hh_longi_2010$HB020, useNA = "ifany")
+
+
+
 
 per_longi_2010 <- merge_eusilc(origin.path=path.longi.2010,
                               output.path=output.2010,
                               level="personal",
                               type="longitudinal",
                               year="2010",
-                              format="RData",
+                              format="RData"),
                               subset.vars.per.reg = c("RB050","RB090"),
                               subset.vars.per.data = c("PE010","PL025"),
                               subset.countries = "DE")
+
+table(per_longi_2010$PB020, useNA = "ifany")
+
+
 
 both_longi_2010 <- merge_eusilc(origin.path=path.longi.2010,
                                 output.path=output.2010,

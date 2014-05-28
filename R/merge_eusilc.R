@@ -62,7 +62,8 @@ subset.vars.per <- function(data) {
     if (subset.vars.per.data[1] == "all") subset.vars.per.data <- names(per.data)
     if (subset.vars.per.data[1] != "all") subset.vars.per.data <- subset.vars.per.data
     subset.vars.per.data <- append(subset.vars.per.data, 
-                              c("PER_ID_Y","PX030","PB020"), 
+                              #c("PER_ID_Y","PX030","PB020"), 
+                              c("PB010","PB020","PB030","PX030"), 
                               after=0)
     subset.vars.per.data <- unique(subset.vars.per.data)
     per.data <- per.data[, subset.vars.per.data]
@@ -77,7 +78,8 @@ subset.vars.per <- function(data) {
     if (subset.vars.per.reg[1] == "all") subset.vars.per.reg <- names(per.reg)
     if (subset.vars.per.reg[1] != "all") subset.vars.per.reg <- subset.vars.per.reg
     subset.vars.per.reg <- append(subset.vars.per.reg, 
-                                  c("PER_ID","PER_ID_Y","RB010","RB020"), 
+                                  #c("PER_ID","PER_ID_Y","RB010","RB020"), 
+                                  c("RB010","RB020","RB030"), 
                                   after=0)
     subset.vars.per.reg <- unique(subset.vars.per.reg)
     
@@ -95,7 +97,7 @@ subset.vars.hh <- function(data) {
         if (subset.vars.hh.data[1] == "all") subset.vars.hh.data <- names(hh.data)
         if (subset.vars.hh.data[1] != "all") subset.vars.hh.data <- subset.vars.hh.data
         subset.vars.hh.data <- append(subset.vars.hh.data, 
-                                       c("HH_ID_Y","HB020"), 
+                                       c("HB010","HB020","HB030"), 
                                        after=0)
         subset.vars.hh.data <- unique(subset.vars.hh.data)
         hh.data <- hh.data[, subset.vars.hh.data]
@@ -111,7 +113,7 @@ subset.vars.hh <- function(data) {
         if (subset.vars.hh.reg[1] == "all") subset.vars.hh.reg <- names(hh.reg)
         if (subset.vars.hh.reg[1] != "all") subset.vars.hh.reg <- subset.vars.hh.reg
         subset.vars.hh.reg <- append(subset.vars.hh.reg, 
-                                     c("HH_ID","HH_ID_Y","DB020"),
+                                     c("DB010","DB020","DB030"),
                                       after=0)
         subset.vars.hh.reg <- unique(subset.vars.hh.reg)
         
@@ -132,20 +134,20 @@ subset.vars.hh <- function(data) {
     ## personal register
     path_personal_register <- paste(origin.path,"r_file.csv",sep="")
     per.reg <- read.csv(path_personal_register, header = T, sep = ',')
-    per.reg$PER_ID_Y <- factor(paste(per.reg$RB010,per.reg$RB020,per.reg$RB030, sep="_"))
-    per.reg$PER_ID <- factor(paste(per.reg$RB020,per.reg$RB030, sep="_"))
     
     ## personal data
     path_personal_data <- paste(origin.path,"p_file.csv",sep="")
     per.data <- read.csv(path_personal_data, header = T, sep = ',')
-    per.data$PER_ID_Y <- factor(paste(per.data$PB010,per.data$PB020,per.data$PB030, sep="_"))
     
     # subset the data before merging
-    per.reg <- subset.vars.per("per.reg")
-    per.data <- subset.vars.per("per.data")
+    per.reg2 <- subset.vars.per("per.reg")
+    per.data2 <- subset.vars.per("per.data")
   
     # merge personal register with personal data
-    merged <- merge(per.reg,per.data,by="PER_ID_Y", all=TRUE)
+    merged <- merge(per.reg,per.data,
+                    by.x=c("RB010","RB020","RB030"),
+                    by.y=c("PB010","PB020","PB030"),
+                    all=TRUE)
   }
   
   # Household
@@ -153,20 +155,19 @@ subset.vars.hh <- function(data) {
     ## household register
     path_household_register <- paste(origin.path,"d_file.csv",sep="")
     hh.reg <- read.csv(path_household_register, header = T, sep = ',')
-    hh.reg$HH_ID_Y <- factor(paste(hh.reg$DB010,hh.reg$DB020,hh.reg$DB030, sep="_"))
-    hh.reg$HH_ID <- factor(paste(hh.reg$DB020,hh.reg$DB030, sep="_"))
     
     ## household data
     path_household_data <- paste(origin.path,"h_file.csv",sep="")
     hh.data <- read.csv(path_household_data, header = T, sep = ',')
-    hh.data$HH_ID_Y <- factor(paste(hh.data$HB010,hh.data$HB020,hh.data$HB030, sep="_")) 
     
     # subset the data before merging
     hh.reg <- subset.vars.hh("hh.reg")
     hh.data <- subset.vars.hh("hh.data")
 
     # merge household register with household data
-    merged <- merge(hh.reg,hh.data,by="HH_ID_Y", all=TRUE)
+    merged <- merge(hh.reg,hh.data,
+    	by.x=c("DB010","DB020","DB030"),
+    	by.y=c("HB010","HB020","HB030"), all=TRUE)
   }
   
   # Both
@@ -174,45 +175,47 @@ subset.vars.hh <- function(data) {
     ## personal register
     path_personal_register <- paste(origin.path,"r_file.csv",sep="")
     per.reg <- read.csv(path_personal_register, header = T, sep = ',')
-    per.reg$PER_ID_Y <- factor(paste(per.reg$RB010,per.reg$RB020,per.reg$RB030, sep="_"))
-    per.reg$PER_ID <- factor(paste(per.reg$RB020,per.reg$RB030, sep="_"))
     
     ## personal data
     path_personal_data <- paste(origin.path,"p_file.csv",sep="")
     per.data <- read.csv(path_personal_data, header = T, sep = ',')
-    per.data$PER_ID_Y <- factor(paste(per.data$PB010,per.data$PB020,per.data$PB030, sep="_"))
-    
+        
     # subset the data before merging
     per.reg <- subset.vars.per("per.reg")
     per.data <- subset.vars.per("per.data")
   
     # merge personal register with personal data
-    per.merged <- merge(per.reg,per.data,by="PER_ID_Y", all=TRUE)
-    per.merged$HH_ID_Y <- factor(paste(per.merged$RB010,
-                                       per.merged$RB020,
-                                       per.merged$PX030, 
-                                       sep="_"))
+    per.merged <- merge(per.reg,per.data,
+                    by.x=c("RB010","RB020","RB030"),
+                    by.y=c("PB010","PB020","PB030"),
+                    all=TRUE)
+    # per.merged$HH_ID_Y <- factor(paste(per.merged$RB010,
+    #                                    per.merged$RB020,
+    #                                    per.merged$PX030, 
+    #                                    sep="_"))
 
     ## household register
     path_household_register <- paste(origin.path,"d_file.csv",sep="")
     hh.reg <- read.csv(path_household_register, header = T, sep = ',')
-    hh.reg$HH_ID_Y <- factor(paste(hh.reg$DB010,hh.reg$DB020,hh.reg$DB030, sep="_"))
-    hh.reg$HH_ID <- factor(paste(hh.reg$DB020,hh.reg$DB030, sep="_"))
     
     ## household data
     path_household_data <- paste(origin.path,"h_file.csv",sep="")
     hh.data <- read.csv(path_household_data, header = T, sep = ',')
-    hh.data$HH_ID_Y <- factor(paste(hh.data$HB010,hh.data$HB020,hh.data$HB030, sep="_")) 
     
     # subset the data before merging
     hh.reg <- subset.vars.hh("hh.reg")
     hh.data <- subset.vars.hh("hh.data")
 
     # merge household register with household data
-    hh.merged <- merge(hh.reg,hh.data,by="HH_ID_Y", all=TRUE)
+    hh.merged <- merge(hh.reg,hh.data,
+    	by.x=c("DB010","DB020","DB030"),
+    	by.y=c("HB010","HB020","HB030"), all=TRUE)
 
     merged <- merge(per.merged,hh.merged,
-      by="HH_ID_Y",all=TRUE)
+    	by.x=c("RB010","RB020","PX030"),
+    	by.y=c("DB010","DB020","DB030"), all=TRUE)
+      
+      #by="HH_ID_Y",all=TRUE)
     } 
 
   # ----------------------------------------------- #
