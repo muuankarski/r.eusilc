@@ -1,15 +1,13 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{r.eusilc Markdown Vignette made with knitr}
--->
 ---
-title: Merging EU-SILC raw data using r.eusilc-package
-output: 
-   html_document:
-     theme: spacelab 
-...
+title: "Merging EU-SILC raw data using r.eusilc-package"
+author: "Markus Kainu"
+date: "11.09.2014"
+output:
+  html_document:
+    theme: spacelab
+---
 
-Introduction
+Merging EU-SILC raw data using r.eusilc-package
 ===============================
 
 This tutorial will go through a process for merging EU-SILC raw .csv data files using [r.eusilc](https://github.com/muuankarski/r.eusilc)-package and creating an analysis ready dataset. Tutorial will explain five different scenarios for creating datasets:
@@ -42,7 +40,6 @@ Eu-silc datasets are delivered on a laser disc, where you have on each disc a fo
 - d-file (household register)
 - from year 2006 revision 2
 - published year 2009
-
 
 Specifying the paths or original .csv files
 -------------------------------
@@ -120,7 +117,7 @@ Household level dataset from cross-sectional data
 
 Here we are merging the household register file with household data file. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010hh_merge_cross.csv`. In addition, function returns `data.frame` object `hh_cross_2010` in the R session.
 
-```{rcase1data, cache=TRUE, eval=FALSE}
+```{rcase1data, eval=FALSE}
 library(r.eusilc)
 hh_cross_2010 <- merge_eusilc(path.household.register = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10D_ver 2010-5 from 01-03-14.csv",
                               path.household.data     = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10H_ver 2010-5 from 01-03-14.csv",
@@ -138,7 +135,7 @@ hh_cross_2010 <- merge_eusilc(path.household.register = "~/demo_data/eusilc_raw/
 
 You can create a boxplot on *total disposable household income* [`HY020`](http://www.gesis.org/?id=2649#HY020) by country [`DB020`](http://www.gesis.org/?id=2634#DB020) with following code:
 
-```{rcase1plot, cache=TRUE, eval=FALSE}
+```{rcase1plot,  eval=FALSE}
 library(ggplot2)
 ggplot(hh_cross_2010, aes(x=factor(reorder(DB020, HY020, median, na.rm=TRUE)), y=HY020)) + 
   geom_boxplot() + 
@@ -152,7 +149,7 @@ ggplot(hh_cross_2010, aes(x=factor(reorder(DB020, HY020, median, na.rm=TRUE)), y
 
 Here we are merging the personal register file with personal data file. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010per_merge_cross.csv`. In addition, function returns `data.frame` object `per_cross_2010` in the R session.
 
-```{rcase2data, cache=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{rcase2data,  warning=FALSE, message=FALSE, eval=FALSE}
 library(r.eusilc)
 per_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10R_ver 2010-5 from 01-03-14.csv",
                                path.personal.data      = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10P_ver 2010-5 from 01-03-14.csv",
@@ -170,7 +167,7 @@ per_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw
 
 You can create a boxplot on *Employee cash or near cash income(net)* [`PY010N`](http://www.gesis.org/?id=2643#PY010N) by sex [`RB090`](http://www.gesis.org/?id=2639#RB090) and country [`RB020`](http://www.gesis.org/?id=2639#RB020) with following code:
 
-```{rcase2plot, cache=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{rcase2plot,  warning=FALSE, message=FALSE, eval=FALSE}
 # removing NA values from sex-variable
 plot_data <- per_cross_2010[!is.na(per_cross_2010$RB090),]
 # relevelling the sex-variable
@@ -191,7 +188,7 @@ ggplot(plot_data, aes(x=factor(RB090), y=PY010N)) +
 
 Here we are merging the household register with household data files and then merging the merged household register and data files into it. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010both_merge_cross.csv`. In addition, function returns `data.frame` object `both_cross_2010` in the R session.
 
-```{rcase3data, cache=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{rcase3data,  warning=FALSE, message=FALSE, eval=FALSE}
 library(r.eusilc)
 both_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10R_ver 2010-5 from 01-03-14.csv",
                                 path.personal.data      = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10P_ver 2010-5 from 01-03-14.csv",
@@ -212,7 +209,7 @@ both_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 For this data we shall create a scatterplot where we have household level *total disposable household income* [`HY020`](http://www.gesis.org/?id=2649#HY020) on the x-axis and personal level *Employee cash or near cash income(net)* [`PY010N`](http://www.gesis.org/?id=2643#PY010N) on the y-axis. 
 
 
-```{rcase3plot, cache=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{rcase3plot,  warning=FALSE, message=FALSE, eval=FALSE}
 library(ggplot2)
 ggplot(both_cross_2010, aes(x=HY020, y=PY010N)) +
     geom_point(alpha=.1, shape=1) +
@@ -248,7 +245,7 @@ both_longi_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 ```
 
 
-```{rcase4plot, cache=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+```{rcase4plot,  warning=FALSE, message=FALSE, eval=FALSE}
 # lets take sample of 500 000
 plot_data <- per_longi_2010[sample(1:nrow(per_longi_2010), 500000,
    replace=FALSE),] 
