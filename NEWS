@@ -1,0 +1,10 @@
+r.eusilc 0.3.0 (Release date: 2014-09-11)
+==============
+
+Changes:
+
+* instead of replacing the file names of original .csv's, now you have to specify the path for each csv. Update will break the old code.
+
+r.eusilc 0.2.4 (Release date: 2014-05-28)
+==============
+

@@ -12,7 +12,10 @@
 
 #' Merge eu-silc personal level cross-sectional raw .csv datasets, personal_register and personal_data
 #'
-#' @param origin.path A string. Specify the path where to load the original csv files.
+#' @param path.personal.register A string. Specify the path to original personal register .csv file.
+#' @param path.personal.data A string. Specify the path to original personal data .csv file.
+#' @param path.household.register A string. Specify the path to original household register .csv file.
+#' @param path.household.data A string. Specify the path to original household data .csv file.
 #' @param destination.path A string. Specify the path where to save the merged file. value=\code{"not_save"} does not save the merged file
 #' @param level A string. Specify the whether to merge \code{"personal"}, \code{"household"} or \code{"both"} level datas. Both stands for merging all the four datas at personal level
 #' @param type A string. Specify the whether to merge \code{"cross-sectional"} or \code{"longitudinal"} level datas
@@ -28,23 +31,39 @@
 #' @return data.frame
 #'
 #' @export
-#' @examples # dat_per_longi <- merge_eusilc(origin.path="~/data/eu_silc/2010/longi_rev2", output.path="~/data_temp/",level="personal",type="longitudinal",year="2010",format="RData",subset.vars="all",subset.countries="all") 
+#' @examples # 
 #' @author Markus Kainu <markuskainu(at)gmail.com> 
 
 
-merge_eusilc <- function(origin.path,
-                      output.path,
-                      level,
-                      type,
-                      year,
-                      format,
-                      subset.vars.per.reg="all",
-                      subset.vars.per.data="all",
-                      subset.vars.hh.reg="all",
-                      subset.vars.hh.data="all",
-                      subset.countries="all") {
+merge_eusilc <- function(path.personal.register,
+                         path.personal.data,
+                         path.household.register,
+                         path.household.data,
+                         output.path,
+                         level,
+                         type,
+                         year,
+                         format,
+                         subset.vars.per.reg="all",
+                         subset.vars.per.data="all",
+                         subset.vars.hh.reg="all",
+                         subset.vars.hh.data="all",
+                         subset.countries="all") {
   
-  if(!exists("origin.path")) stop("origin.path not defined")
+  if (level == "personal") {
+    if(!exists("path.personal.register")) stop("path.personal.register not defined")
+    if(!exists("path.personal.data")) stop("path.personal.data not defined")
+  }
+  if (level == "household") {
+    if(!exists("path.household.register")) stop("path.household.register not defined")
+    if(!exists("path.household.data")) stop("path.household.data not defined")
+  }
+  if (level == "both") {
+    if(!exists("path.personal.register")) stop("path.personal.register not defined")
+    if(!exists("path.personal.data")) stop("path.personal.data not defined")
+    if(!exists("path.household.register")) stop("path.household.register not defined")
+    if(!exists("path.household.data")) stop("path.household.data not defined")
+  }
   if(!exists("output.path")) stop("output.path not defined")
   if(!exists("level")) stop("level not defined")
   if(!exists("type")) stop("type not defined")
@@ -132,11 +151,11 @@ subset.vars.hh <- function(data) {
   # Personal
   if (level == "personal") {
     ## personal register
-    path_personal_register <- paste(origin.path,"r_file.csv",sep="")
+    path_personal_register <- path.personal.register
     per.reg <- read.csv(path_personal_register, header = T, sep = ',')
     
     ## personal data
-    path_personal_data <- paste(origin.path,"p_file.csv",sep="")
+    path_personal_data <- path.personal.data
     per.data <- read.csv(path_personal_data, header = T, sep = ',')
     
     # subset the data before merging
@@ -153,11 +172,11 @@ subset.vars.hh <- function(data) {
   # Household
   if (level == "household") {
     ## household register
-    path_household_register <- paste(origin.path,"d_file.csv",sep="")
+    path_household_register <- path.household.register
     hh.reg <- read.csv(path_household_register, header = T, sep = ',')
     
     ## household data
-    path_household_data <- paste(origin.path,"h_file.csv",sep="")
+    path_household_data <- path.household.data
     hh.data <- read.csv(path_household_data, header = T, sep = ',')
     
     # subset the data before merging
@@ -173,11 +192,11 @@ subset.vars.hh <- function(data) {
   # Both
   if (level == "both") {
     ## personal register
-    path_personal_register <- paste(origin.path,"r_file.csv",sep="")
+    path_personal_register <- path.personal.register
     per.reg <- read.csv(path_personal_register, header = T, sep = ',')
     
     ## personal data
-    path_personal_data <- paste(origin.path,"p_file.csv",sep="")
+    path_personal_data <- path.personal.data
     per.data <- read.csv(path_personal_data, header = T, sep = ',')
         
     # subset the data before merging
@@ -195,11 +214,11 @@ subset.vars.hh <- function(data) {
     #                                    sep="_"))
 
     ## household register
-    path_household_register <- paste(origin.path,"d_file.csv",sep="")
+    path_household_register <- path.household.register
     hh.reg <- read.csv(path_household_register, header = T, sep = ',')
     
     ## household data
-    path_household_data <- paste(origin.path,"h_file.csv",sep="")
+    path_household_data <- path.household.data
     hh.data <- read.csv(path_household_data, header = T, sep = ',')
     
     # subset the data before merging
