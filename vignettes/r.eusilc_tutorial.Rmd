@@ -30,7 +30,6 @@ Preparations
 **Requirements:**
 
 - 16 GB of RAM
-- original files in r_file.csv, p_file.csv.. format in origin.path -folder
 - time. The third example takes about 15 minutes to run on my computer 
 
 Eu-silc datasets are delivered on a laser disc, where you have on each disc a four .csv files representing one either *cross-sectional* or *longitudinal* version of data. Raw .csv-files are named as `UDB_L06D_ver 2006-2 from 01-03-2009`, that in this case would mean:
