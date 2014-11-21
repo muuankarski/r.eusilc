@@ -1,16 +1,22 @@
 ---
 title: "Merging EU-SILC raw data using r.eusilc-package"
 author: "Markus Kainu"
-date: "11.09.2014"
+date: "20.11.2014"
 output:
   html_document:
-    theme: spacelab
+    css: ~/web/css/rmarkdown.css
+    number_sections: yes
+    theme: null
+    toc: yes
 ---
+
+# pandoc --toc --number-section -s -S -H /home/aurelius/web/css/rmarkdown.css -r markdown+grid_tables+table_captions+yaml_metadata_block r.eusilc_tutorial.md -o r.eusilc_tutorial.html
+
 
 Merging EU-SILC raw data using r.eusilc-package
 ===============================
 
-This tutorial will go through a process for merging EU-SILC raw .csv data files using [r.eusilc](https://github.com/muuankarski/r.eusilc)-package and creating an analysis ready dataset. Tutorial will explain five different scenarios for creating datasets:
+This tutorial will go through a process for merging EU-SILC raw .csv data files using [r.eusilc](https://github.com/muuankarski/r.eusilc)-package and creating an analysis ready-dataset. Tutorial will explain five different scenarios for creating datasets:
 
 1. Household level dataset from cross-sectional data
 2. Individual level dataset from cross-sectional data
@@ -143,7 +149,7 @@ ggplot(hh_cross_2010, aes(x=factor(reorder(DB020, HY020, median, na.rm=TRUE)), y
 
 ![](figure/case1plot.png)
 
-2. Individual level dataset from cross-sectional data
+Individual level dataset from cross-sectional data
 ---------------------------------------------
 
 Here we are merging the personal register file with personal data file. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010per_merge_cross.csv`. In addition, function returns `data.frame` object `per_cross_2010` in the R session.
@@ -182,7 +188,7 @@ ggplot(plot_data, aes(x=factor(RB090), y=PY010N)) +
 
 ![](figure/case2plot.png)
 
-3. Individual level dataset with household level variables from cross-sectional data
+Individual level dataset with household level variables from cross-sectional data
 ---------------------------------------------
 
 Here we are merging the household register with household data files and then merging the merged household register and data files into it. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010both_merge_cross.csv`. In addition, function returns `data.frame` object `both_cross_2010` in the R session.
@@ -220,7 +226,7 @@ ggplot(both_cross_2010, aes(x=HY020, y=PY010N)) +
 ![](figure/case3plot.png)
 
 
-4. Individual level dataset with household level variables from longitudinal data
+Individual level dataset with household level variables from longitudinal data
 ---------------------------------------------
 
 Here we are merging the personal register with personal data from longitudinal data. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/longi_rev2`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010per_merge_longi.csv`. In addition, function returns `data.frame` object `per_longi_2010` in the R session.
@@ -258,7 +264,7 @@ ggplot(plot_data, aes(x=RB010, y=PY010N, group=PER_ID)) +
 
 ![](figure/case4plot.png)
 
-5. Pooled individual level dataset with household level variables from longitudinal data
+Pooled individual level dataset with household level variables from longitudinal data
 ---------------------------------------------
 
 **Loading the datasets**
@@ -297,7 +303,7 @@ both_longi_2011 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 ```
 
 
-### 5.1 Selecting identical variables & only Nordic countries from both datasets
+### Selecting identical variables & only Nordic countries from both datasets
 
 
 ```{r, eval=FALSE}
@@ -340,7 +346,7 @@ suse_2011 <- both_longi_2011[both_longi_2011$RB020 %in% nordic.countries,
 ```
 
 
-### 5.2 Row binding the datasets & removing duplicates
+### Row binding the datasets & removing duplicates
 
 Now we have identical variables for both datasets and it is easy to combine them using `rbind`.
 
