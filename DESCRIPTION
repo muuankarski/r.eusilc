@@ -7,5 +7,6 @@ Author: Markus Kainu
 Maintainer: Markus Kainu <markuskainu@gmail.com>
 Description: Merge eu-silc cross-sectional and longitudinal raw .csv datasets into single data.frame that can be used in analysis
 License: FreeBSD
+URL: https://github.com/muuankarski/r.eusilc
 Collate:
     'merge_eusilc.R'

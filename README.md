@@ -22,33 +22,32 @@ library(r.eusilc)
 Examples
 ---------------------------------
 
-See preliminary tutorial at [muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html](http://muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html)
+See package vignette at [muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html](http://muuankarski.github.io/r.eusilc/vignettes/r.eusilc_tutorial.html)
 
 
-### Install
+Licensing and Citations
+-----------------------------------------
 
-```{r, eval=FALSE}
-library(devtools)
-install_github("r.eusilc","muuankarski")
-library(r.eusilc)
-```
+This work can be freely used, modified and distributed under the open license specified in the [DESCRIPTION](DESCRIPTION) file.
 
-### Merge individual level dataset with household level variables from longitudinal data
+Kindly cite the work as follows
 
-```{rcase4data, eval=FALSE}
-library(r.eusilc)
-both_longi_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10R_ver 2010-4 from 01-03-2014.csv",
-                               path.personal.data      = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10P_ver 2010-4 from 01-03-2014.csv",
-                               path.household.register = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10D_ver 2010-4 from 01-03-2014.csv",
-                               path.household.data     = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10H_ver 2010-4 from 01-03-2014.csv",
-                               output.path="~/demo_data/eusilc_merged/2010",
-                               level="both",
-                               type="longitudinal",
-                               year="2010",
-                               format="RData",
-                               subset.vars.per.reg="all",
-                               subset.vars.per.data="all",
-                               subset.vars.hh.reg="all",
-                               subset.vars.hh.data="all",
-                               subset.countries="all") 
-```
+citation("r.eusilc")
+
+    To cite package ‘r.eusilc’ in publications use:
+
+      Markus Kainu (2014). r.eusilc: Merge eu-silc cross-sectional and longitudinal raw .csv datasets. R package version 0.3.0.
+      https://github.com/muuankarski/r.eusilc
+
+    A BibTeX entry for LaTeX users is
+
+      @Manual{,
+        title = {r.eusilc: Merge eu-silc cross-sectional and longitudinal raw .csv datasets},
+        author = {Markus Kainu},
+        year = {2014},
+        note = {R package version 0.3.0},
+        url = {https://github.com/muuankarski/r.eusilc},
+      }
+
+    ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file and may need manual editing, see ‘help("citation")’.
+
