@@ -154,11 +154,11 @@ subset.vars.hh <- function(data) {
   if (level == "personal") {
     ## personal register
     path_personal_register <- path.personal.register
-    per.reg <- read_csv(path_personal_register)
+    per.reg <- read.csv(path_personal_register, stringsAsFactors = FALSE)
     
     ## personal data
     path_personal_data <- path.personal.data
-    per.data <- read_csv(path_personal_data)
+    per.data <- read.csv(path_personal_data, stringsAsFactors = FALSE)
     
     # subset the data before merging
     per.reg <- subset.vars.per("per.reg")
@@ -168,7 +168,7 @@ subset.vars.hh <- function(data) {
     merged <- merge(per.reg,per.data,
                     by.x=c("RB010","RB020","RB030"),
                     by.y=c("PB010","PB020","PB030"),
-                    all=TRUE)
+                    all.x=TRUE)
     rm(list = c('per.reg','per.data')) # to spare memory
   }
 
@@ -177,11 +177,11 @@ subset.vars.hh <- function(data) {
   if (level == "household") {
     ## household register
     path_household_register <- path.household.register
-    hh.reg <- read_csv(path_household_register)
+    hh.reg <- read.csv(path_household_register, stringsAsFactors = FALSE)
     
     ## household data
     path_household_data <- path.household.data
-    hh.data <- read_csv(path_household_data)
+    hh.data <- read.csv(path_household_data, stringsAsFactors = FALSE)
     
     # subset the data before merging
     hh.reg <- subset.vars.hh("hh.reg")
@@ -199,11 +199,11 @@ subset.vars.hh <- function(data) {
   if (level == "both") {
     ## personal register
     path_personal_register <- path.personal.register
-    per.reg <- read_csv(path_personal_register)
+    per.reg <- read.csv(path_personal_register, stringsAsFactors = FALSE)
     
     ## personal data
     path_personal_data <- path.personal.data
-    per.data <- read_csv(path_personal_data)
+    per.data <- read.csv(path_personal_data, stringsAsFactors = FALSE)
         
     # subset the data before merging
     per.reg <- subset.vars.per("per.reg")
@@ -221,11 +221,11 @@ subset.vars.hh <- function(data) {
 
     ## household register
     path_household_register <- path.household.register
-    hh.reg <- read_csv(path_household_register)
+    hh.reg <- read.csv(path_household_register, stringsAsFactors = FALSE)
     
     ## household data
     path_household_data <- path.household.data
-    hh.data <- read_csv(path_household_data)
+    hh.data <- read.csv(path_household_data, stringsAsFactors = FALSE)
     
     # subset the data before merging
     hh.reg <- subset.vars.hh("hh.reg")
