@@ -40,6 +40,8 @@ merge_eusilc <- function(path.personal.register,
                          path.household.register,
                          path.household.data,
                          output.path,
+                         output.filename = "default",
+                         return.object = TRUE,
                          level,
                          type,
                          year,
@@ -251,25 +253,7 @@ subset.vars.hh <- function(data) {
 
   # write files
   
-  if (level == "personal" & type == "cross-sectional") {
-    save_path <- paste(output.path,"/",year,"per_merge_cross",sep="")
-  }
-  if (level == "household" & type == "cross-sectional") {
-    save_path <- paste(output.path,"/",year,"hh_merge_cross",sep="")
-  }
-  if (level == "both" & type == "cross-sectional") {
-    save_path <- paste(output.path,"/",year,"both_merge_cross",sep="")
-  }
-  if (level == "personal" & type == "longitudinal") {
-    save_path <- paste(output.path,"/",year,"per_merge_longi",sep="")
-  }
-  if (level == "household" & type == "longitudinal") {
-    save_path <- paste(output.path,"/",year,"hh_merge_longi",sep="")
-  }
-  if (level == "both" & type == "longitudinal") {
-    save_path <- paste(output.path,"/",year,"both_merge_longi",sep="")
-  }
-  
+    save_path <- paste(output.path,"/",output.filename,sep="")
   
   if (output.path != "not_save") {
     if (format == "csv") {
@@ -337,8 +321,8 @@ subset.vars.hh <- function(data) {
     }
   }
   
-  rm(list=setdiff(ls(), "merged"))
-  return(merged)
+  if (return.object) return(merged)
+    rm(list=ls(all=TRUE))
 }
 
 
