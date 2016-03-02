@@ -1,6 +1,6 @@
 # This file is part of the r.eusilc-package (https://github.com/muuankarski/r-eusilc)
 
-# Copyright (C) 2014 Markus Kainu <markuskainu@gmail.com>. All rights reserved.
+# Copyright (C) 2014-2016 Markus Kainu <markuskainu@gmail.com>. All rights reserved.
 
 # This program is open source software; you can redistribute it and/or modify
 # it under the terms of the FreeBSD License (keep this notice):
@@ -159,15 +159,17 @@ subset.vars.hh <- function(data) {
     per.data <- read_csv(path_personal_data)
     
     # subset the data before merging
-    per.reg2 <- subset.vars.per("per.reg")
-    per.data2 <- subset.vars.per("per.data")
+    per.reg <- subset.vars.per("per.reg")
+    per.data <- subset.vars.per("per.data")
   
     # merge personal register with personal data
     merged <- merge(per.reg,per.data,
                     by.x=c("RB010","RB020","RB030"),
                     by.y=c("PB010","PB020","PB030"),
                     all=TRUE)
+    rm(list = c('per.reg','per.data')) # to spare memory
   }
+
   
   # Household
   if (level == "household") {
@@ -187,6 +189,8 @@ subset.vars.hh <- function(data) {
     merged <- merge(hh.reg,hh.data,
     	by.x=c("DB010","DB020","DB030"),
     	by.y=c("HB010","HB020","HB030"), all=TRUE)
+    
+    rm(list = c('hh.reg','hh.data')) # to spare memory
   }
   
   # Both
@@ -229,12 +233,17 @@ subset.vars.hh <- function(data) {
     hh.merged <- merge(hh.reg,hh.data,
     	by.x=c("DB010","DB020","DB030"),
     	by.y=c("HB010","HB020","HB030"), all=TRUE)
+    
+    rm(list = c('hh.reg','hh.data')) # to spare memory
 
     merged <- merge(per.merged,hh.merged,
     	by.x=c("RB010","RB020","PX030"),
     	by.y=c("DB010","DB020","DB030"), all=TRUE)
+    
+    rm(list = c('per.reg','per.data')) # to spare memory
       
       #by="HH_ID_Y",all=TRUE)
+    
     } 
 
   # ----------------------------------------------- #
@@ -271,28 +280,29 @@ subset.vars.hh <- function(data) {
     if (format == "RData") {
       save_path_rdata <- paste(save_path,".RData",sep="")
       if (level == "personal" & type == "cross-sectional") {
-        per_merge_cross <- merged
-        save(per_merge_cross, file=save_path_rdata)
+        # per_merge_cross <- merged
+        # save(per_merge_cross, file=save_path_rdata)
+        save(merged, file=save_path_rdata)
       }
       if (level == "household" & type == "cross-sectional") {
-        hh_merge_cross <- merged
-        save(hh_merge_cross, file=save_path_rdata)
+        # hh_merge_cross <- merged
+        save(merged, file=save_path_rdata)
       }
       if (level == "personal" & type == "longitudinal") {
-        per_merge_longi <- merged
-        save(per_merge_longi, file=save_path_rdata)
+        # per_merge_longi <- merged
+        save(merged, file=save_path_rdata)
       }
       if (level == "household" & type == "longitudinal") {
-        hh_merge_longi <- merged
-        save(hh_merge_longi, file=save_path_rdata)
+        # hh_merge_longi <- merged
+        save(merged, file=save_path_rdata)
       }
       if (level == "both" & type == "cross-sectional") {
-        both_merge_cross <- merged
-        save(both_merge_cross, file=save_path_rdata)
+        # both_merge_cross <- merged
+        save(merged, file=save_path_rdata)
       }
       if (level == "both" & type == "longitudinal") {
-        both_merge_longi <- merged
-        save(both_merge_longi, file=save_path_rdata)
+        # both_merge_longi <- merged
+        save(merged, file=save_path_rdata)
       }
     }
     
