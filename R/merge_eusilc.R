@@ -214,6 +214,7 @@ subset.vars.hh <- function(data) {
     #                                    per.merged$RB020,
     #                                    per.merged$PX030, 
     #                                    sep="_"))
+    rm(list = c('per.reg','per.data')) # to spare memory
 
     ## household register
     path_household_register <- path.household.register
@@ -238,7 +239,7 @@ subset.vars.hh <- function(data) {
     	by.x=c("RB010","RB020","PX030"),
     	by.y=c("DB010","DB020","DB030"), all=TRUE)
     
-    rm(list = c('per.reg','per.data')) # to spare memory
+    rm(list = c('per.merged','hh.merged')) # to spare memory
       
       #by="HH_ID_Y",all=TRUE)
     
