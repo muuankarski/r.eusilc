@@ -16,16 +16,16 @@
 #' @param path.personal.data A string. Specify the path to original personal data .csv file.
 #' @param path.household.register A string. Specify the path to original household register .csv file.
 #' @param path.household.data A string. Specify the path to original household data .csv file.
-#' @param destination.path A string. Specify the path where to save the merged file. value=\code{"not_save"} does not save the merged file
 #' @param level A string. Specify the whether to merge \code{"personal"}, \code{"household"} or \code{"both"} level datas. Both stands for merging all the four datas at personal level
-#' @param type A string. Specify the whether to merge \code{"cross-sectional"} or \code{"longitudinal"} level datas
-#' @param year A string. Specify the year from what year data is in question
+#' @param output.path A string. Specify the path where to save the merged file. value=\code{"not_save"} does not save the merged file
+#' @param output.filename A string. Specify filename for the merged file. A file extension according to format will be added.
 #' @param format A string. Specify the output format for merged data. values=\code{"csv","RData","SPSS","SAS" or "Stata"} 
 #' @param subset.vars.per.reg. A string. Specify subset of variables from personal register file. \code{"all"} includes all the variables.
 #' @param subset.vars.per.data. A string. Specify subset of variables from personal data file. \code{"all"} includes all the variables.
 #' @param subset.vars.hh.reg. A string. Specify subset of variables from household register file. \code{"all"} includes all the variables.
 #' @param subset.vars.hh.data. A string. Specify subset of variables from household data file. \code{"all"} includes all the variables.
 #' @param subset.countries A string. Specify subset of countries. In \code{c("FI","SE")} format.  \code{"all"} includes all the countries.
+#' @param return.object A logical. Whether function should return merged data.frame into environment.
 #'
 #'
 #' @return data.frame
@@ -39,18 +39,16 @@ merge_eusilc <- function(path.personal.register,
                          path.personal.data,
                          path.household.register,
                          path.household.data,
+                         level,
                          output.path,
                          output.filename = "default",
-                         return.object = TRUE,
-                         level,
-                         type,
-                         year,
                          format,
                          subset.vars.per.reg="all",
                          subset.vars.per.data="all",
                          subset.vars.hh.reg="all",
                          subset.vars.hh.data="all",
-                         subset.countries="all") {
+                         subset.countries="all",
+                         return.object = TRUE) {
   
   if (level == "personal") {
     if(!exists("path.personal.register")) stop("path.personal.register not defined")
@@ -68,8 +66,6 @@ merge_eusilc <- function(path.personal.register,
   }
   if(!exists("output.path")) stop("output.path not defined")
   if(!exists("level")) stop("level not defined")
-  if(!exists("type")) stop("type not defined")
-  if(!exists("year")) stop("year not defined")
   if(!exists("format")) stop("format not defined")
   if(!(format %in% c("csv","RData","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RData,SPSS,SAS,Stata")
    
@@ -263,31 +259,7 @@ subset.vars.hh <- function(data) {
     
     if (format == "RData") {
       save_path_rdata <- paste(save_path,".RData",sep="")
-      if (level == "personal" & type == "cross-sectional") {
-        # per_merge_cross <- merged
-        # save(per_merge_cross, file=save_path_rdata)
-        save(merged, file=save_path_rdata)
-      }
-      if (level == "household" & type == "cross-sectional") {
-        # hh_merge_cross <- merged
-        save(merged, file=save_path_rdata)
-      }
-      if (level == "personal" & type == "longitudinal") {
-        # per_merge_longi <- merged
-        save(merged, file=save_path_rdata)
-      }
-      if (level == "household" & type == "longitudinal") {
-        # hh_merge_longi <- merged
-        save(merged, file=save_path_rdata)
-      }
-      if (level == "both" & type == "cross-sectional") {
-        # both_merge_cross <- merged
-        save(merged, file=save_path_rdata)
-      }
-      if (level == "both" & type == "longitudinal") {
-        # both_merge_longi <- merged
-        save(merged, file=save_path_rdata)
-      }
+      save(merged, file=save_path_rdata)
     }
     
     if (format == "SPSS") {
