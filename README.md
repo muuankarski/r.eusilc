@@ -15,7 +15,7 @@ Once installed you can install r.eusilc with following code:
 
 ```r
 library(devtools)
-install_github("r.eusilc","muuankarski")
+install_github("muuankarski/r.eusilc")
 ```
 
 Get the documentation by running
