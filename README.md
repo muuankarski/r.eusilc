@@ -3,8 +3,15 @@ r.eusilc - R-package for merging eu-silc cross-sectional and longitudinal raw .c
 
 This package provides functions for merging raw .csv-files into single household/personal level datafile.
 
+
 Installation
 ---------------------------------
+
+**This package is not in [CRAN](https://cran.r-project.org/web/packages/) and you can only install it through github**. 
+
+For that you need `[devtools](https://cran.r-project.org/web/packages/devtools/index.html)`-package that you can install from CRAN with `install.packages("devtools")`.
+
+Once installed you can install r.eusilc with following code:
 
 ```r
 library(devtools)
