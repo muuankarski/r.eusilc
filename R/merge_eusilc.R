@@ -67,7 +67,7 @@ merge_eusilc <- function(path.personal.register,
   if(!exists("output.path")) stop("output.path not defined")
   if(!exists("level")) stop("level not defined")
   if(!exists("format")) stop("format not defined")
-  if(!(format %in% c("csv","RData","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RData,SPSS,SAS,Stata")
+  if(!(format %in% c("csv","RDS","SPSS","SAS","Stata"))) stop("Wrong format. Use csv,RDS,SPSS,SAS,Stata")
    
   # ----------------------------------------------- #
   # ----------------------------------------------- #
@@ -258,9 +258,9 @@ subset.vars.hh <- function(data) {
       write.csv(merged, file=save_path_csv)  
     }
     
-    if (format == "RData") {
-      save_path_rdata <- paste(save_path,".RData",sep="")
-      save(merged, file=save_path_rdata)
+    if (format == "RDS") {
+      save_path_rds <- paste(save_path,".RDS",sep="")
+      saveRDS(merged, file=save_path_rds)
     }
     
     if (format == "SPSS") {

@@ -1,16 +1,20 @@
 ---
 title: "Merging EU-SILC raw data using r.eusilc-package"
 author: "Markus Kainu"
-date: "20.11.2014"
+date: "8.9.2016"
 output:
   html_document:
-    css: ~/web/css/rmarkdown.css
+    theme: united
     number_sections: yes
-    theme: null
-    toc: yes
+    toc_float: true
+    toc: true
+    code_folding: show
 ---
 
-# pandoc --toc --number-section -s -S -H /home/aurelius/web/css/rmarkdown.css -r markdown+grid_tables+table_captions+yaml_metadata_block r.eusilc_tutorial.md -o r.eusilc_tutorial.html
+```{r rundoc, eval=FALSE, include=FALSE}
+rmarkdown::render(input = "/home/aurelius/btsync/mk/workspace/paketit/r.eusilc/vignettes/r.eusilc_tutorial.Rmd", output_file = "/home/aurelius/btsync/mk/workspace/paketit/r.eusilc/vignettes/r.eusilc_tutorial.html")
+```
+
 
 
 Merging EU-SILC raw data using r.eusilc-package
@@ -35,7 +39,7 @@ Preparations
 
 **Requirements:**
 
-- 16 GB of RAM
+- >=8 GB of RAM
 - time. The third example takes about 15 minutes to run on my computer 
 
 Eu-silc datasets are delivered on a laser disc, where you have on each disc a four .csv files representing one either *cross-sectional* or *longitudinal* version of data. Raw .csv-files are named as `UDB_L06D_ver 2006-2 from 01-03-2009`, that in this case would mean:
@@ -58,7 +62,7 @@ You have to specify path to each of the four original .csv files for the followi
 
 Consider structuring your raw data archive into something like (this is how my data is organised for this demo):
 
-```{r, eval=FALSE}
+```{r , eval=FALSE}
 
 demo_data
 |\
@@ -80,18 +84,25 @@ demo_data
 |    |      |    |-------- UDB_l11P_ver 2011-2 from 01-03-2014.csv
 |    |      |    |-------- UDB_l11D_ver 2011-2 from 01-03-2014.csv
 |____|______|____|-------- UDB_l11H_ver 2011-2 from 01-03-2014.csv
+|    |      |---cross_rev2
+|    |      |    |-------- UDB_c11R_ver 2012-3 from 01-03-14.csv
+|    |      |    |-------- UDB_c11P_ver 2012-3 from 01-03-14.csv
+|    |      |    |-------- UDB_c11D_ver 2012-3 from 01-03-14.csv
+|____|______|____|-------- UDB_c11H_ver 2012-3 from 01-03-14.csv
+|    |-----2012
+|    |      |---cross_rev0
+|    |      |    |-------- UDB_c12R_ver 2012-1 from 01-03-14.csv
+|    |      |    |-------- UDB_c12P_ver 2012-1 from 01-03-14.csv
+|    |      |    |-------- UDB_c12D_ver 2012-1 from 01-03-14.csv
+|____|______|____|-------- UDB_c12H_ver 2012-1 from 01-03-14.csv
 |\
 | \-eusilc_merged
-|    |---2009
-|    |     |----- per_longi.csv
-|    |     |----- hh_longi.csv
-|    |     |----- hh_cross.csv
-|    |     |----- hh_cross.csv
 |    |---2010
-|    |     |----- per_longi.csv
-|    |     |----- hh_longi.csv
-|    |     |----- hh_cross.csv
-|____|_____|----- hh_cross.csv
+|    |     |----- 
+|    |     |----- 
+|    |---2011
+|    |     |----- 
+|____|_____|----- 
 
 
 
@@ -105,9 +116,9 @@ Installing r.eusilc-package
 For installation you need to have **devtools**-package installed with  `install.packages("devtools")`. In Windows you will need [RTools](http://cran.r-project.org/bin/windows/Rtools/index.html) to be installed before installing **devtools**-package.
 
 
-```{r, eval=FALSE}
+```{r , eval=FALSE}
 library(devtools)
-install_github("r.eusilc","muuankarski")
+install_github("muuankarski/r.eusilc")
 library(r.eusilc)
 ```
 
@@ -122,15 +133,14 @@ Household level dataset from cross-sectional data
 
 Here we are merging the household register file with household data file. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010hh_merge_cross.csv`. In addition, function returns `data.frame` object `hh_cross_2010` in the R session.
 
-```{rcase1data, eval=FALSE}
+```{r case1data, eval=FALSE}
 library(r.eusilc)
-hh_cross_2010 <- merge_eusilc(path.household.register = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10D_ver 2010-5 from 01-03-14.csv",
-                              path.household.data     = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10H_ver 2010-5 from 01-03-14.csv",
-                              output.path="~/demo_data/eusilc_merged/2010",
+hh_cross_2011 <- merge_eusilc(path.household.register = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11D_ver 2011-3 from 01-03-14.csv",
+                              path.household.data     = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11H_ver 2011-3 from 01-03-14.csv",
+                              output.path="~/demo_data/eusilc_merged/2011",
                               level="household",
-                              type="cross-sectional",
-                              year="2010",
                               format="csv",
+                              output.filename = "hh_cross_2011",
                               subset.vars.per.reg="all",
                               subset.vars.per.data="all",
                               subset.vars.hh.reg="all",
@@ -140,7 +150,7 @@ hh_cross_2010 <- merge_eusilc(path.household.register = "~/demo_data/eusilc_raw/
 
 You can create a boxplot on *total disposable household income* [`HY020`](http://www.gesis.org/?id=2649#HY020) by country [`DB020`](http://www.gesis.org/?id=2634#DB020) with following code:
 
-```{rcase1plot,  eval=FALSE}
+```{r case1plot,  eval=FALSE}
 library(ggplot2)
 ggplot(hh_cross_2010, aes(x=factor(reorder(DB020, HY020, median, na.rm=TRUE)), y=HY020)) + 
   geom_boxplot() + 
@@ -154,15 +164,14 @@ Individual level dataset from cross-sectional data
 
 Here we are merging the personal register file with personal data file. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010per_merge_cross.csv`. In addition, function returns `data.frame` object `per_cross_2010` in the R session.
 
-```{rcase2data,  warning=FALSE, message=FALSE, eval=FALSE}
+```{r case2data,  warning=FALSE, message=FALSE, eval=FALSE}
 library(r.eusilc)
-per_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10R_ver 2010-5 from 01-03-14.csv",
-                               path.personal.data      = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10P_ver 2010-5 from 01-03-14.csv",
-                              output.path="~/demo_data/eusilc_merged/2010",
+per_cross_2011 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11R_ver 2011-3 from 01-03-14.csv",
+                               path.personal.data      = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11P_ver 2011-3 from 01-03-14.csv",
+                              output.path="~/demo_data/eusilc_merged/2011",
+                              output.filename = "per_cross_2011",
+                              format="RDS",
                               level="personal",
-                              type="cross-sectional",
-                              year="2010",
-                              format="RData",
                               subset.vars.per.reg="all",
                               subset.vars.per.data="all",
                               subset.vars.hh.reg="all",
@@ -172,7 +181,7 @@ per_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw
 
 You can create a boxplot on *Employee cash or near cash income(net)* [`PY010N`](http://www.gesis.org/?id=2643#PY010N) by sex [`RB090`](http://www.gesis.org/?id=2639#RB090) and country [`RB020`](http://www.gesis.org/?id=2639#RB020) with following code:
 
-```{rcase2plot,  warning=FALSE, message=FALSE, eval=FALSE}
+```{r case2plot,  warning=FALSE, message=FALSE, eval=FALSE}
 # removing NA values from sex-variable
 plot_data <- per_cross_2010[!is.na(per_cross_2010$RB090),]
 # relevelling the sex-variable
@@ -193,17 +202,16 @@ Individual level dataset with household level variables from cross-sectional dat
 
 Here we are merging the household register with household data files and then merging the merged household register and data files into it. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/cross_rev4`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010both_merge_cross.csv`. In addition, function returns `data.frame` object `both_cross_2010` in the R session.
 
-```{rcase3data,  warning=FALSE, message=FALSE, eval=FALSE}
+```{r case3data,  warning=FALSE, message=FALSE, eval=FALSE}
 library(r.eusilc)
-both_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10R_ver 2010-5 from 01-03-14.csv",
-                                path.personal.data      = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10P_ver 2010-5 from 01-03-14.csv",
-                                path.household.register = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10D_ver 2010-5 from 01-03-14.csv",
-                                path.household.data     = "~/demo_data/eusilc_raw/2010/cross_rev4/UDB_c10H_ver 2010-5 from 01-03-14.csv",
-                                output.path="~/demo_data/eusilc_merged/2010",
+both_cross_2011 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11R_ver 2011-3 from 01-03-14.csv",
+                                path.personal.data      = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11P_ver 2011-3 from 01-03-14.csv",
+                                path.household.register = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11D_ver 2011-3 from 01-03-14.csv",
+                                path.household.data     = "~/demo_data/eusilc_raw/2011/cross_rev2/UDB_c11H_ver 2011-3 from 01-03-14.csv",
+                                output.path="~/demo_data/eusilc_merged/2011",
+                                output.filename = "both_cross_2011",
+                                format="RDS",
                                 level="both",
-                                type="cross-sectional",
-                                year="2010",
-                                format="RData",
                                 subset.vars.per.reg="all",
                                 subset.vars.per.data="all",
                                 subset.vars.hh.reg="all",
@@ -214,7 +222,7 @@ both_cross_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 For this data we shall create a scatterplot where we have household level *total disposable household income* [`HY020`](http://www.gesis.org/?id=2649#HY020) on the x-axis and personal level *Employee cash or near cash income(net)* [`PY010N`](http://www.gesis.org/?id=2643#PY010N) on the y-axis. 
 
 
-```{rcase3plot,  warning=FALSE, message=FALSE, eval=FALSE}
+```{r case3plot,  warning=FALSE, message=FALSE, eval=FALSE}
 library(ggplot2)
 ggplot(both_cross_2010, aes(x=HY020, y=PY010N)) +
     geom_point(alpha=.1, shape=1) +
@@ -231,17 +239,16 @@ Individual level dataset with household level variables from longitudinal data
 
 Here we are merging the personal register with personal data from longitudinal data. Function reads the raw -csv files in `~/data_demo/eusilc_raw/2010/longi_rev2`and writes the merged output in `csv` format in `~/data_demo/eusilc_merged/2010` with filename `2010per_merge_longi.csv`. In addition, function returns `data.frame` object `per_longi_2010` in the R session.
 
-```{rcase4data, eval=FALSE}
+```{r case4data, eval=FALSE}
 library(r.eusilc)
-both_longi_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10R_ver 2010-4 from 01-03-2014.csv",
-                               path.personal.data      = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10P_ver 2010-4 from 01-03-2014.csv",
-                               path.household.register = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10D_ver 2010-4 from 01-03-2014.csv",
-                               path.household.data     = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10H_ver 2010-4 from 01-03-2014.csv",
-                               output.path="~/demo_data/eusilc_merged/2010",
+both_longi_2011 <- merge_eusilc(path.personal.register = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11R_ver 2011-2 from 01-03-2014.csv",
+                               path.personal.data      = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11P_ver 2011-2 from 01-03-2014.csv",
+                               path.household.register = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11D_ver 2011-2 from 01-03-2014.csv",
+                               path.household.data     = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11H_ver 2011-2 from 01-03-2014.csv",
+                               output.path="~/demo_data/eusilc_merged/2011",
                                level="both",
-                               type="longitudinal",
-                               year="2010",
-                               format="RData",
+                               output.filename = "both_longi_2011",
+                               format="RDS",
                                subset.vars.per.reg="all",
                                subset.vars.per.data="all",
                                subset.vars.hh.reg="all",
@@ -250,7 +257,7 @@ both_longi_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 ```
 
 
-```{rcase4plot,  warning=FALSE, message=FALSE, eval=FALSE}
+```{r case4plot,  warning=FALSE, message=FALSE, eval=FALSE}
 # lets take sample of 500 000
 plot_data <- per_longi_2010[sample(1:nrow(per_longi_2010), 500000,
    replace=FALSE),] 
@@ -269,32 +276,30 @@ Pooled individual level dataset with household level variables from longitudinal
 
 **Loading the datasets**
 
-```{rcase5data, eval=FALSE}
+```{r case5data, eval=FALSE}
 library(r.eusilc)
-both_longi_2010 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10R_ver 2010-4 from 01-03-2014.csv",
+both_longi_2010 <- merge_eusilc(path.personal.register = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10R_ver 2010-4 from 01-03-2014.csv",
                                path.personal.data      = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10P_ver 2010-4 from 01-03-2014.csv",
                                path.household.register = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10D_ver 2010-4 from 01-03-2014.csv",
                                path.household.data     = "~/demo_data/eusilc_raw/2010/longi_rev3/UDB_l10H_ver 2010-4 from 01-03-2014.csv",
                                output.path="~/demo_data/eusilc_merged/2010",
+                               output.filename = "both_longi_2010",
                                level="both",
-                               type="longitudinal",
-                               year="2010",
-                               format="RData",
+                               format="RDS",
                                subset.vars.per.reg="all",
                                subset.vars.per.data="all",
                                subset.vars.hh.reg="all",
                                subset.vars.hh.data="all",
                                subset.countries="all") 
 
-both_longi_2011 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11R_ver 2011-2 from 01-03-2014.csv",
+both_longi_2011 <- merge_eusilc(path.personal.register = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11R_ver 2011-2 from 01-03-2014.csv",
                                path.personal.data      = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11P_ver 2011-2 from 01-03-2014.csv",
                                path.household.register = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11D_ver 2011-2 from 01-03-2014.csv",
                                path.household.data     = "~/demo_data/eusilc_raw/2011/longi_rev1/UDB_l11H_ver 2011-2 from 01-03-2014.csv",
                                output.path="~/demo_data/eusilc_merged/2011",
                                level="both",
-                               type="longitudinal",
-                               year="2011",
-                               format="RData",
+                               output.filename = "both_longi_2011",
+                               format="RDS",
                                subset.vars.per.reg="all",
                                subset.vars.per.data="all",
                                subset.vars.hh.reg="all",
@@ -306,7 +311,7 @@ both_longi_2011 <- merge_eusilc(path.personal.register  = "~/demo_data/eusilc_ra
 ### Selecting identical variables & only Nordic countries from both datasets
 
 
-```{r, eval=FALSE}
+```{r , eval=FALSE}
 vars.per.reg <- c("RB010", # Year
                   "RB020", # Country
                   "RB030", # Personal ID
@@ -337,12 +342,14 @@ subset.vars <- c(vars.per.reg,vars.per.data,
                  vars.hh.reg,vars.hh.data)
 nordic.countries <- c("SE","NO","FI","DK","IS")
 
+
+both_longi_2010 <- readRDS("~/demo_data/eusilc_merged/2010/both_longi_2010.RDS")
+both_longi_2011 <- readRDS("~/demo_data/eusilc_merged/2011/both_longi_2011.RDS")
 # subsetting
 suse_2010 <- both_longi_2010[both_longi_2010$RB020 %in% nordic.countries,
                              subset.vars]
 suse_2011 <- both_longi_2011[both_longi_2011$RB020 %in% nordic.countries,
                              subset.vars]
-
 ```
 
 
@@ -352,7 +359,7 @@ Now we have identical variables for both datasets and it is easy to combine them
 
 As we have duplicate information from certain individual from certain year from different datas (person x information from year 2009 is in BOTH 2010 and 2011 londitudinal data), we have to remove them and only leave the first occasion of that information.
 
-```{r, eval=FALSE}
+```{r , eval=FALSE}
 dat <- rbind(suse_2010,
              suse_2011)
 #
@@ -363,7 +370,7 @@ dat <- dat[!duplicated(dat[c("RB010", # Year
 
 By removing the duplicates we are left with 268522 individuals and we can plor their household income across the years by with following code
 
-```{r, eval=FALSE}
+```{r , eval=FALSE}
 library(ggplot2)
 ggplot(data=dat, 
        aes(x=RB010,
