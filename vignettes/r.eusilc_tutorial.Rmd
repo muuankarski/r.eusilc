@@ -16,9 +16,46 @@ rmarkdown::render(input = "/home/aurelius/btsync/mk/workspace/paketit/r.eusilc/v
 ```
 
 
+# Data documentation
 
-Merging EU-SILC raw data using r.eusilc-package
-===============================
+Perhaps the most compherensive documentation of EU-SILC data is by [GESIS](http://www.gesis.org/home/)
+
+## VBariable level documentaion 
+
+- All [pdf-codebooks](http://www.gesis.org/en/missy/materials/EU-SILC/documents/codebooks)
+
+### Documentation for web browser - click the year 
+
+|   Cross-sectional data                                                               | Panel data                                                                 |
+|   ---------------------------------------------------------------------------------  | -------------------------------------------------------------------------- |
+| [2013](http://www.gesis.org/en/missy/metadata/EU-SILC/2013/Cross-sectional/original) | [2013](http://www.gesis.org/en/missy/metadata/EU-SILC/2013/Panel/original) |
+| [2012](http://www.gesis.org/en/missy/metadata/EU-SILC/2012/Cross-sectional/original) | [2012](http://www.gesis.org/en/missy/metadata/EU-SILC/2012/Panel/original) |
+| [2011](http://www.gesis.org/en/missy/metadata/EU-SILC/2011/Cross-sectional/original) | [2011](http://www.gesis.org/en/missy/metadata/EU-SILC/2011/Panel/original) |
+| [2010](http://www.gesis.org/en/missy/metadata/EU-SILC/2010/Cross-sectional/original) | [2010](http://www.gesis.org/en/missy/metadata/EU-SILC/2010/Panel/original) |
+| [2009](http://www.gesis.org/en/missy/metadata/EU-SILC/2009/Cross-sectional/original) | [2009](http://www.gesis.org/en/missy/metadata/EU-SILC/2009/Panel/original) |
+| [2008](http://www.gesis.org/en/missy/metadata/EU-SILC/2008/Cross-sectional/original) | [2008](http://www.gesis.org/en/missy/metadata/EU-SILC/2008/Panel/original) |
+| [2007](http://www.gesis.org/en/missy/metadata/EU-SILC/2007/Cross-sectional/original) | [2007](http://www.gesis.org/en/missy/metadata/EU-SILC/2007/Panel/original) |
+| [2006](http://www.gesis.org/en/missy/metadata/EU-SILC/2006/Cross-sectional/original) | 2006 |
+| [2005](http://www.gesis.org/en/missy/metadata/EU-SILC/2005/Cross-sectional/original) | 2005 |
+
+
+## Basic information of data and different waves
+
+- [Variables over time](http://www.gesis.org/en/missy/matrix/variables/EU-SILC)
+- [Dataset availability over time & countries: EU-SILC](http://www.gesis.org/en/missy/matrix/datasets/EU-SILC)
+- [Variables-by-Year-Matrix-2004-2013](http://www.etracker.de/lnkcnt.phpäet=qPKGYV&url=http://www.gesis.org/fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx&lnkname=fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx) (Excel-tiedosto) - 
+(incl. variables, type of data, reference period, unit of observation, mode of collection)
+
+## Misc documentation
+
+- [quality reports](http://www.gesis.org/en/missy/materials/EU-SILC/documents/quality-reports)
+- [Data Handling & Analysis: EU-SILC](http://www.gesis.org/en/missy/materials/EU-SILC/tools/datahandling)
+- [Training materials](http://www.gesis.org/en/missy/materials/EU-SILC/tools/training)
+- [Routines to transform *.csv to SPSS/Stata system files](http://www.gesis.org/en/missy/materials/EU-SILC/setups)
+
+
+# Merging EU-SILC raw data using r.eusilc-package
+
 
 This tutorial will go through a process for merging EU-SILC raw .csv data files using [r.eusilc](https://github.com/muuankarski/r.eusilc)-package and creating an analysis ready-dataset. Tutorial will explain five different scenarios for creating datasets:
 
