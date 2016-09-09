@@ -44,11 +44,7 @@ Perhaps the most compherensive documentation of EU-SILC data is by [GESIS](http:
 
 - [Variables over time](http://www.gesis.org/en/missy/matrix/variables/EU-SILC)
 - [Dataset availability over time & countries: EU-SILC](http://www.gesis.org/en/missy/matrix/datasets/EU-SILC)
-<<<<<<< HEAD
 - [Variables-by-Year-Matrix-2004-2013](http://www.etracker.de/lnkcnt.phpäet=qPKGYV&url=http://www.gesis.org/fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx&lnkname=fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx) (Excel-file) - 
-=======
-- [Variables-by-Year-Matrix-2004-2013](http://www.etracker.de/lnkcnt.phpäet=qPKGYV&url=http://www.gesis.org/fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx&lnkname=fileadmin/upload/dienstleistung/daten/amtl_mikrodaten/europ_microdata/EU-SILC/Tools/variables_by_year_2004_2013.xlsx) (Excel-tiedosto) - 
->>>>>>> c3f354a7b3a7e83bf82a23c65b17ae472086e6b4
 (incl. variables, type of data, reference period, unit of observation, mode of collection)
 
 ## Misc documentation
